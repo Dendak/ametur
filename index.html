@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ametur</title>
+<meta name="description" content="ametur">
+<style>
+  :root {
+    --bg: #fbfaf7;
+    --fg: #1c1a17;
+    --muted: #6b6459;
+    --line: #e3ded4;
+    --accent: #8a6a3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14130f;
+      --fg: #f2eee6;
+      --muted: #a49b8c;
+      --line: #2d2a24;
+      --accent: #d3b177;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    line-height: 1.65;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: clamp(3rem, 12vh, 8rem) 1.5rem 4rem;
+  }
+  h1 {
+    font-size: clamp(3rem, 12vw, 5.5rem);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    margin: 0;
+    line-height: 1;
+  }
+  .rule {
+    width: 4rem;
+    height: 1px;
+    background: var(--accent);
+    margin: 2rem 0;
+    border: 0;
+  }
+  .lead {
+    font-size: 1.2rem;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0 0 2.5rem;
+  }
+  section { margin-bottom: 2.5rem; }
+  h2 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    font-weight: 400;
+    font-family: system-ui, sans-serif;
+    margin: 0 0 0.75rem;
+  }
+  p { margin: 0 0 1rem; }
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 1.5rem;
+    text-align: center;
+    font-family: system-ui, sans-serif;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>ametur</h1>
+  <hr class="rule">
+  <p class="lead">Diese Seite entsteht gerade &ndash; Inhalt folgt.</p>
+
+  <section>
+    <h2>Worum geht es</h2>
+    <p>Platzhaltertext. Hier kommt sp&auml;ter eine kurze Beschreibung des Projekts hin:
+      worum es geht, f&uuml;r wen es gedacht ist und was man hier finden wird.</p>
+  </section>
+
+  <section>
+    <h2>Aktuelles</h2>
+    <p>Platzhaltertext. Neuigkeiten, Termine oder Ank&uuml;ndigungen finden hier ihren Platz.</p>
+  </section>
+
+  <section>
+    <h2>Kontakt</h2>
+    <p>Platzhaltertext. Kontaktm&ouml;glichkeit erg&auml;nzen.</p>
+  </section>
+</main>
+<footer>ametur</footer>
+</body>
+</html>
