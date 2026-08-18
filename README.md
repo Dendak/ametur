@@ -3,6 +3,10 @@
 Statische Seite zum Jahresprogramm „AMETUR – Menschenbild und Spiritualität"
 (Schuljahr 2026/27), Privatgymnasium der Herz-Jesu-Missionare.
 
+Inhalt: alle Termine des Plakats (Vorträge, Gottesdienste & Liturgie, Musik,
+Besondere Angebote, Film, Gebet & Spiritualität, Gemeinschaft & Austausch),
+Farben und Logo aus dem A1-Plakatentwurf übernommen.
+
 Zweck: Der gedruckte QR-Code zeigt auf diese Seite, nicht direkt auf das
 Microsoft-Forms-Formular. Ändert sich das Formular, wird nur der Link in
 `index.html` getauscht – die Plakate bleiben gültig.
@@ -16,7 +20,7 @@ Microsoft-Forms-Formular. Ändert sich das Formular, wird nur der Link in
 
 ## Aufbau
 
-Eine einzige Datei: `index.html`. Kein Build, kein Framework, keine Serverlogik –
+`index.html` plus `ametur-logo.png` (aus dem Plakat-PDF extrahiert). Kein Build, kein Framework, keine Serverlogik –
 GitHub Pages liefert nur statische Dateien aus.
 
 ## Regeln für Änderungen

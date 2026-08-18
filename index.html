@@ -4,150 +4,427 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AMETUR &ndash; Menschenbild und Spiritualit&auml;t</title>
-<meta name="description" content="AMETUR – Menschenbild und Spiritualität. Jahresprogramm im Schuljahr 2026/27 am Privatgymnasium der Herz-Jesu-Missionare.">
+<meta name="description" content="AMETUR – Menschenbild und Spiritualität. Programm im Schuljahr 2026/27 am Privatgymnasium der Herz-Jesu-Missionare: Vorträge, Gottesdienste, Film, Musik, Gebet und Gemeinschaft.">
 <meta name="robots" content="index, follow">
+<meta name="theme-color" content="#e78439">
+<meta property="og:title" content="AMETUR – Menschenbild und Spiritualität">
+<meta property="og:description" content="Programm im Schuljahr 2026/27 am Privatgymnasium der Herz-Jesu-Missionare.">
+<meta property="og:image" content="ametur-logo.png">
+<link rel="icon" href="ametur-logo.png">
 <style>
   :root {
-    --bg: #fbfaf7;
-    --fg: #1c1a17;
-    --muted: #6b6459;
-    --line: #e3ded4;
-    --accent: #8a6a3b;
-    --accent-fg: #ffffff;
-    --card: #ffffff;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #14130f;
-      --fg: #f2eee6;
-      --muted: #a49b8c;
-      --line: #2d2a24;
-      --accent: #d3b177;
-      --accent-fg: #14130f;
-      --card: #1c1a15;
-    }
+    --orange: #e78439;
+    --ink: #3e3d49;
+    --card-orange: #ffb04a;
+    --card-violet: #d4a4c3;
+    --card-cream: #f1f1de;
+    --card-peach: #fddcc5;
+    --card-yellow: #ffea7a;
+    --card-blue: #c0d6df;
+    --card-pink: #e9b3a3;
+    --paper: #fff4e6;
   }
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
-    line-height: 1.65;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    margin: 0;
+    background: var(--orange);
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
   }
-  main {
-    flex: 1;
+  .wrap {
     width: 100%;
-    max-width: 46rem;
+    max-width: 74rem;
     margin: 0 auto;
-    padding: clamp(2.5rem, 9vh, 6rem) 1.5rem 4rem;
+    padding: 0 1.25rem;
+  }
+
+  /* ---------- Kopf ---------- */
+  header { padding: clamp(1.75rem, 5vw, 3.5rem) 0 clamp(1.5rem, 4vw, 2.5rem); }
+  .head-inner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
   }
   .kicker {
-    font-family: system-ui, sans-serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--muted);
-    margin: 0 0 1rem;
+    color: var(--paper);
+    margin: 0 0 0.6rem;
   }
-  h1 {
-    font-size: clamp(2.6rem, 10vw, 4.5rem);
+  .tagline {
+    font-size: clamp(1.4rem, 4.6vw, 2.6rem);
     font-weight: 400;
-    letter-spacing: 0.06em;
     margin: 0;
-    line-height: 1.05;
+    line-height: 1.1;
   }
-  .subtitle {
-    font-size: clamp(1.1rem, 3.5vw, 1.5rem);
-    font-style: italic;
-    color: var(--muted);
-    margin: 0.75rem 0 0;
+  .tagline strong { font-weight: 700; }
+  h1 {
+    font-size: clamp(3rem, 13vw, 7rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0.1em 0 0;
+    line-height: 0.95;
   }
-  .rule {
-    width: 4rem;
-    height: 1px;
-    background: var(--accent);
-    margin: 2rem 0;
-    border: 0;
+  .logo {
+    width: clamp(7rem, 18vw, 12rem);
+    height: auto;
+    flex: none;
   }
-  section { margin-bottom: 2.5rem; }
-  h2 {
-    font-size: 0.8rem;
+
+  /* ---------- Sektionen ---------- */
+  main { padding-bottom: 2rem; }
+  .cols { columns: 1; column-gap: 1.5rem; }
+  section.block {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin: 0 0 2rem;
+  }
+  section.block > h2 {
+    font-size: clamp(1.35rem, 4.4vw, 2rem);
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--accent);
-    font-weight: 400;
-    font-family: system-ui, sans-serif;
-    margin: 0 0 0.75rem;
+    color: var(--paper);
+    margin: 0 0 0.7rem 0.4rem;
+    line-height: 1.1;
   }
-  p { margin: 0 0 1rem; }
+  .card {
+    border-radius: 2rem;
+    padding: 1.5rem 1.5rem 1.25rem;
+  }
+  .c-orange { background: var(--card-orange); }
+  .c-violet { background: var(--card-violet); }
+  .c-cream  { background: var(--card-cream); }
+  .c-peach  { background: var(--card-peach); }
+  .c-yellow { background: var(--card-yellow); }
+  .c-blue   { background: var(--card-blue); }
+  .c-pink   { background: var(--card-pink); }
+
+  ul.events { list-style: none; margin: 0; padding: 0; }
+  ul.events > li + li {
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(62, 61, 73, 0.16);
+  }
+  .when {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0 0 0.15rem;
+    opacity: 0.75;
+  }
+  ul.events h3 {
+    font-size: 1.08rem;
+    font-weight: 700;
+    margin: 0 0 0.2rem;
+    line-height: 1.3;
+  }
+  .details { margin: 0; font-size: 0.97rem; }
+  .details + .details { margin-top: 0.2rem; }
+  ul.plain { list-style: none; margin: 0.4rem 0 0; padding: 0; font-size: 0.97rem; }
+  ul.plain li { margin-bottom: 0.15rem; }
+  .note {
+    margin: 0.9rem 0 0;
+    font-size: 0.92rem;
+    font-style: italic;
+    opacity: 0.8;
+  }
+
+  /* ---------- Anmeldung ---------- */
   .cta {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 1.5rem;
+    background: var(--paper);
+    border-radius: 2rem;
+    padding: 2rem 1.5rem;
     text-align: center;
+    margin: 0 0 2.5rem;
   }
-  .cta p { color: var(--muted); font-size: 0.95rem; }
+  .cta h2 {
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0 0 0.5rem;
+  }
+  .cta p { margin: 0 auto 1.25rem; max-width: 34rem; }
   .button {
     display: inline-block;
-    background: var(--accent);
-    color: var(--accent-fg);
+    background: var(--ink);
+    color: var(--paper);
     text-decoration: none;
-    font-family: system-ui, sans-serif;
-    font-size: 1rem;
-    letter-spacing: 0.02em;
-    padding: 0.85rem 2rem;
-    border-radius: 6px;
-    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 0.9rem 2.2rem;
+    border-radius: 999px;
   }
-  .button:hover { opacity: 0.88; }
-  footer {
-    border-top: 1px solid var(--line);
-    padding: 1.5rem;
-    text-align: center;
-    font-family: system-ui, sans-serif;
-    font-size: 0.8rem;
-    color: var(--muted);
+  .button:hover { background: #2b2a34; }
+  .hint {
+    margin: 0.9rem auto 0;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    max-width: 34rem;
   }
-  a { color: var(--accent); }
+
+  /* ---------- Fuss ---------- */
+  footer { padding: 0 0 3rem; }
+  .wordmark {
+    font-size: clamp(3.5rem, 15vw, 9rem);
+    font-weight: 800;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+    line-height: 0.9;
+    margin: 0 0 0.75rem;
+  }
+  .imprint {
+    font-size: 0.9rem;
+    color: var(--paper);
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  @media (min-width: 60rem) {
+    .cols { columns: 2; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <p class="kicker">Jahresprogramm &middot; Schuljahr 2026/27</p>
-  <h1>AMETUR</h1>
-  <p class="subtitle">Menschenbild und Spiritualit&auml;t</p>
-  <hr class="rule">
 
-  <section>
-    <h2>Worum es geht</h2>
-    <p>Platzhaltertext. Hier kommt eine kurze Beschreibung des Jahresprogramms hin:
-      Idee, Ablauf und was die Sch&uuml;lerinnen und Sch&uuml;ler im Schuljahr
-      2026/27 erwartet.</p>
-  </section>
+<header>
+  <div class="wrap head-inner">
+    <div>
+      <p class="kicker">Schuljahr 2026/27 &middot; Privatgymnasium der Herz-Jesu-Missionare</p>
+      <p class="tagline">Menschenbild <strong>und Spiritualit&auml;t</strong></p>
+      <h1>PROGRAMM</h1>
+    </div>
+    <img class="logo" src="ametur-logo.png" alt="Ametur &ndash; Globus mit Schriftband">
+  </div>
+</header>
 
-  <section>
-    <h2>Termine</h2>
-    <p>Platzhaltertext. Die Termine des Jahresprogramms werden hier erg&auml;nzt.</p>
-  </section>
+<main class="wrap">
 
+  <div class="cols">
+
+    <section class="block">
+      <h2>Vortr&auml;ge &amp; Gespr&auml;che</h2>
+      <div class="card c-orange">
+        <ul class="events">
+          <li>
+            <p class="when">Mi., 14.10.26</p>
+            <h3>Zukunft der Religionen</h3>
+            <p class="details">Prof. Dr. Martin R&ouml;tting (PLUS)</p>
+            <p class="details">18.30 Uhr &middot; Theatersaal</p>
+          </li>
+          <li>
+            <p class="when">Mi., 18.11.26</p>
+            <h3>Advent in der Familie</h3>
+            <p class="details">Praktische Anleitung zur Feier des Advents</p>
+            <p class="details">18.30 Uhr &middot; Theatersaal</p>
+          </li>
+          <li>
+            <p class="when">Mi., 20.1.27</p>
+            <h3>MSC weltweit</h3>
+            <p class="details">Begegnung mit Herz-Jesu-Missionaren</p>
+            <p class="details">18.30 Uhr &middot; Theatersaal</p>
+          </li>
+          <li>
+            <p class="when">Mi., 24.2.27</p>
+            <h3>Innerlich zerrissen</h3>
+            <p class="details">Biblisch-spirituelle Spuren zur Ganzheit</p>
+            <p class="details">Dr. Eduard Baumann &middot; 18.30 Uhr &middot; Theatersaal</p>
+          </li>
+          <li>
+            <p class="when">Mi., 17.3.27</p>
+            <h3>&bdquo;Fastenbier und Laugenbreze&ldquo;</h3>
+            <p class="details">Philosophicum mit Dr. Anton Bucher</p>
+            <p class="details">18.30 Uhr &middot; Chevaliersaal</p>
+          </li>
+          <li>
+            <p class="when">Mi., 14.4.27</p>
+            <h3>Widerstand aus Berufung</h3>
+            <p class="details">Franz und Franziska J&auml;gerst&auml;tter</p>
+            <p class="details">Dr. Erna Putz &middot; 18.30 Uhr &middot; Theatersaal</p>
+          </li>
+          <li>
+            <p class="when">So., 25.4.27</p>
+            <h3>Den Schatz der Eucharistie (neu) entdecken</h3>
+            <p class="details">anschl. Abendliturgie</p>
+            <p class="details">17.00 Uhr &middot; Festsaal &middot; Kloster</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Gottesdienste &amp; Liturgie</h2>
+      <div class="card c-violet">
+        <ul class="events">
+          <li>
+            <p class="when">Fr., 16.10.26</p>
+            <h3>Chevaliergottesdienst</h3>
+            <p class="details">18.00 Uhr &middot; Pfarrkirche Taxham</p>
+          </li>
+          <li>
+            <p class="when">30.11.26 &ndash; 21.12.26</p>
+            <h3>Rorate</h3>
+            <ul class="plain">
+              <li>Mo., 30.11.26 &middot; 7./8. Klassen</li>
+              <li>Mi., 2.12.26 &middot; 3. Klassen</li>
+              <li>Do., 3.12.26 &middot; 4. Klassen</li>
+              <li>Mo., 14.12.26 &middot; 1. Klassen</li>
+              <li>Mi., 16.12.26 &middot; 5./6. Klassen</li>
+              <li>Mo., 21.12.26 &middot; 2. Klassen</li>
+            </ul>
+            <p class="details" style="margin-top:0.4rem">9.30 Uhr &middot; Klosterkirche</p>
+          </li>
+          <li>
+            <p class="when">Fr., 9.7.27</p>
+            <h3>Dankgottesdienst</h3>
+            <p class="details">9.30 Uhr &middot; Pfarrkirche Taxham</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Musik</h2>
+      <div class="card c-peach">
+        <ul class="events">
+          <li>
+            <p class="when">Mi., 26.5.27</p>
+            <h3>Geistliches Konzert, anschl. Agape</h3>
+            <p class="details">18.30 Uhr &middot; Klosterkirche</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Besondere Angebote</h2>
+      <div class="card c-cream">
+        <ul class="events">
+          <li>
+            <p class="when">Mo., 18.1. &ndash; Fr., 22.1.27</p>
+            <h3>Internationale MSC besuchen die Klassen</h3>
+            <p class="details">und berichten aus Leben und Mission</p>
+          </li>
+          <li>
+            <p class="when">Do., 25.3. &ndash; So., 28.3.27</p>
+            <h3>Kartage bewusst erleben und Liturgie mitgestalten</h3>
+            <p class="details">f&uuml;r unsere Ministrantengruppe</p>
+          </li>
+          <li>
+            <p class="when">Mi., 14.4.27</p>
+            <h3>Widerstand aus Berufung</h3>
+            <p class="details">Franz und Franziska J&auml;gerst&auml;tter &middot; Dr. Erna Putz</p>
+            <p class="details">8.00 Uhr (5./6. Kl.), 10.00 Uhr (7./8. Kl.)</p>
+          </li>
+          <li>
+            <h3>Leitspr&uuml;che von P. Jules Chevalier</h3>
+            <p class="details">Interpretation und Gestaltung</p>
+            <p class="details">Schulgalerie &middot; 3. und 4. Klassen</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Film</h2>
+      <div class="card c-yellow">
+        <ul class="plain">
+          <li><strong>Mi., 23.9.26</strong> &middot; Juno (alle)</li>
+          <li><strong>Do., 22.10.26</strong> &middot; Die beste aller Welten (ab 5. Kl.)</li>
+          <li><strong>Do., 5.11.26</strong> &middot; David Attenborough &ndash; Mein Leben auf unserem Planeten (alle)</li>
+          <li><strong>Do., 17.12.26</strong> &middot; Von Menschen und G&ouml;ttern (ab 5. Kl.)</li>
+          <li><strong>Do., 7.1.27</strong> &middot; Buy Now! The Shopping Conspiracy (alle)</li>
+          <li><strong>Do., 11.2.27</strong> &middot; Terror &ndash; Ihr Urteil (alle)</li>
+          <li><strong>Do., 18.3.27</strong> &middot; Radical (ab 5. Kl.)</li>
+          <li><strong>Do., 1.4.27</strong> &middot; Paulus &ndash; Der Apostel (ab 3. Kl.)</li>
+          <li><strong>Mo., 10.5.27</strong> &middot; Die H&uuml;tte &ndash; Ein Wochenende mit Gott (ab 3. Kl.)</li>
+          <li><strong>Do., 24.6.27</strong> &middot; Soul (alle)</li>
+        </ul>
+        <p class="note">jeweils um 17.00 Uhr im Theatersaal</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Gebet &amp; Spiritualit&auml;t</h2>
+      <div class="card c-blue">
+        <ul class="events">
+          <li>
+            <p class="when">Mo., 28.9. &ndash; Fr., 2.10.26</p>
+            <h3>Spirituelle Impulse im Schulalltag</h3>
+            <p class="details">&bdquo;Momente der Dankbarkeit und des Staunens&ldquo;</p>
+            <p class="details">9.00 Uhr &amp; 12.00 Uhr</p>
+          </li>
+          <li>
+            <p class="when">Oktober 2026</p>
+            <h3>Taiz&eacute;gebet</h3>
+            <p class="details">10.35 Uhr &middot; Josefskapelle</p>
+          </li>
+          <li>
+            <p class="when">Fastenzeit</p>
+            <h3>Exerzitien im Alltag</h3>
+            <p class="details">07.30&ndash;07.45 Uhr</p>
+            <p class="details">Oberstufe &middot; Josefskapelle</p>
+          </li>
+          <li>
+            <p class="when">So., 4.4. &ndash; So., 11.4.27</p>
+            <h3>M&ouml;glichkeit, das Stundengebet mit den Missionaren mitzubeten</h3>
+            <p class="details">7.00 Uhr (So. 7.30 Uhr) &amp; 18.30 Uhr (So. 17.30 Uhr)</p>
+            <p class="details">Klosterkirche</p>
+          </li>
+          <li>
+            <p class="when">Mi., 5.5.27 &middot; Mi., 12.5.27 &middot; Mi., 19.5.27</p>
+            <h3>Marien-/Maiandachten, anschl. Agape</h3>
+            <p class="details">18.30 Uhr &middot; Klosterkirche</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Gemeinschaft &amp; Austausch</h2>
+      <div class="card c-pink">
+        <ul class="events">
+          <li>
+            <h3>Herz-Jesu-Freitag &middot; Wortgottesfeier</h3>
+            <p class="details">(Oberstufe) &middot; 17.00 Uhr &middot; Josefskapelle</p>
+            <p class="details">anschl. Beisammensein mit</p>
+            <ul class="plain">
+              <li>Fr., 6.11.26 &middot; Oberstufenchor</li>
+              <li>Fr., 8.1.27 &middot; Ministrierende</li>
+              <li>Fr., 5.2.27 &middot; Internat</li>
+              <li>Fr., 5.3.27 &middot; Maturantinnen &amp; Maturanten</li>
+              <li>Fr., 2.4.27 &middot; Sch&uuml;ler*innenvertretung</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Forms-Link eintragen: href unten durch die Microsoft-Forms-URL ersetzen
+       und den Absatz mit der Klasse "hint" loeschen. -->
   <section class="cta">
-    <!-- Forms-Link eintragen: href unten durch die Microsoft-Forms-URL ersetzen
-         und das Attribut hidden aus dem Link entfernen bzw. den Hinweis darunter loeschen. -->
-    <a class="button" href="https://forms.office.com/">Zur Anmeldung</a>
-    <p>Der Link f&uuml;hrt noch nicht zum richtigen Formular &ndash; die Forms-URL wird
-      hier eingesetzt, sobald sie feststeht.</p>
+    <h2>Anmeldung erw&uuml;nscht</h2>
+    <p>F&uuml;r die Planung bitten wir um eine kurze R&uuml;ckmeldung, an welchen
+      Veranstaltungen Sie teilnehmen m&ouml;chten.</p>
+    <a class="button" href="https://forms.office.com/">Zum Anmeldeformular</a>
+    <p class="hint">Der Link f&uuml;hrt noch nicht zum richtigen Formular &ndash; die Forms-URL
+      wird hier eingesetzt, sobald sie feststeht.</p>
   </section>
 
-  <section>
-    <h2>Kontakt</h2>
-    <p>Platzhaltertext. Ansprechperson und Kontaktm&ouml;glichkeit erg&auml;nzen.</p>
-  </section>
 </main>
-<footer>Privatgymnasium der Herz-Jesu-Missionare &middot; ametur.herzjesugym.at</footer>
+
+<footer class="wrap">
+  <p class="wordmark">AMETUR.</p>
+  <p class="imprint">Privatgymnasium der Herz-Jesu-Missionare &middot; ametur.herzjesugym.at</p>
+</footer>
+
 </body>
 </html>
