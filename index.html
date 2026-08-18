@@ -92,8 +92,14 @@
     margin: 0 0 1rem;
   }
   ul.next { list-style: none; margin: 0; padding: 0; }
+  ul.next li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
   ul.next li + li { border-top: 1px solid rgba(62, 61, 73, 0.14); }
-  ul.next a {
+  ul.next a.n-link {
+    flex: 1;
     display: flex;
     gap: 1rem;
     align-items: baseline;
@@ -103,7 +109,8 @@
     text-decoration: none;
     border-radius: 0.5rem;
   }
-  ul.next a:hover { background: rgba(62, 61, 73, 0.07); }
+  ul.next a.n-link:hover { background: rgba(62, 61, 73, 0.07); }
+  ul.next .btn-anmelden { margin: 0; flex: none; font-size: 0.72rem; padding: 0.12rem 0.75rem; }
   .n-date {
     flex: none;
     width: 6.5rem;
@@ -180,6 +187,37 @@
   .details + .details { margin-top: 0.2rem; }
   ul.plain { list-style: none; margin: 0.4rem 0 0; padding: 0; font-size: 0.97rem; }
   ul.plain li { margin-bottom: 0.15rem; }
+  .btn-anmelden {
+    display: inline-block;
+    margin-top: 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1.5px solid rgba(62, 61, 73, 0.4);
+    border-radius: 999px;
+    padding: 0.28rem 0.9rem;
+    white-space: nowrap;
+  }
+  .btn-anmelden:hover {
+    background: rgba(62, 61, 73, 0.12);
+    border-color: var(--ink);
+  }
+  .card > ul.plain > li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.45rem;
+  }
+  .card > ul.plain > li > .btn-anmelden {
+    margin: 0;
+    padding: 0.1rem 0.7rem;
+    font-size: 0.72rem;
+    flex: none;
+  }
   .note {
     margin: 0.9rem 0 0;
     font-size: 0.92rem;
@@ -237,6 +275,12 @@
     opacity: 0.9;
   }
 
+  @media (max-width: 40rem) {
+    ul.next li { align-items: flex-start; }
+    ul.next a.n-link { flex-direction: column; gap: 0.1rem; }
+    .n-date { width: auto; }
+    ul.next .btn-anmelden { margin-top: 0.7rem; }
+  }
   @media (min-width: 60rem) {
     .cols { columns: 2; }
   }
@@ -270,7 +314,7 @@
 
   <div class="cols" id="programm">
 
-    <section class="block">
+    <section class="block" data-anmeldung>
       <h2>Vortr&auml;ge &amp; Gespr&auml;che</h2>
       <div class="card c-orange">
         <ul class="events">
@@ -393,7 +437,7 @@
       </div>
     </section>
 
-    <section class="block">
+    <section class="block" data-anmeldung>
       <h2>Film</h2>
       <div class="card c-yellow">
         <ul class="plain">
@@ -412,7 +456,7 @@
       </div>
     </section>
 
-    <section class="block">
+    <section class="block" data-anmeldung>
       <h2>Gebet &amp; Spiritualit&auml;t</h2>
       <div class="card c-blue">
         <ul class="events">
@@ -478,8 +522,10 @@
        und den Absatz mit der Klasse "hint" loeschen. -->
   <section class="cta">
     <h2>Anmeldung erw&uuml;nscht</h2>
-    <p>F&uuml;r die Planung bitten wir um eine kurze R&uuml;ckmeldung, an welchen
-      Veranstaltungen Sie teilnehmen m&ouml;chten.</p>
+    <p>Um Anmeldung bitten wir bei den <strong>Vortr&auml;gen &amp; Gespr&auml;chen</strong>,
+      den <strong>Filmen</strong> sowie bei <strong>Gebet &amp; Spiritualit&auml;t</strong>.
+      Bei diesen Veranstaltungen finden Sie oben jeweils einen Anmelde-Button &ndash;
+      oder Sie w&auml;hlen im Formular gleich mehrere aus.</p>
     <a class="button" href="https://forms.office.com/">Zum Anmeldeformular</a>
     <p class="hint">Der Link f&uuml;hrt noch nicht zum richtigen Formular &ndash; die Forms-URL
       wird hier eingesetzt, sobald sie feststeht.</p>
@@ -493,6 +539,25 @@
 </footer>
 
 <script>
+// ---------------------------------------------------------------
+// Hier die Microsoft-Forms-URL eintragen. Sie gilt fuer alle
+// Anmelde-Buttons; einzelne Eintraege koennen sie mit dem Attribut
+// data-form="..." ueberschreiben (z. B. vorausgefuellte Links).
+// ---------------------------------------------------------------
+var FORMS_URL = "https://forms.office.com/";
+
+// Baut einen Anmelde-Button.
+function anmeldeButton(url, titel) {
+  var a = document.createElement("a");
+  a.className = "btn-anmelden";
+  a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.textContent = "Anmelden";
+  if (titel) a.setAttribute("aria-label", "Anmelden: " + titel);
+  return a;
+}
+
 // Baut die Liste "Naechste Termine" aus allen Eintraegen mit data-date.
 (function () {
   var MAX = 5;
@@ -525,7 +590,10 @@
       titel: titel,
       bereich: sektion ? sektion.querySelector("h2").textContent.trim() : "",
       zeit: el.getAttribute("data-time") || "",
-      ziel: el.id
+      ziel: el.id,
+      anmeldung: sektion && sektion.hasAttribute("data-anmeldung")
+        ? (el.getAttribute("data-form") || FORMS_URL)
+        : null
     });
   }
 
@@ -550,11 +618,12 @@
 
     var li = document.createElement("li");
     li.innerHTML =
-      '<a href="#' + t.ziel + '">' +
+      '<a class="n-link" href="#' + t.ziel + '">' +
         '<span class="n-date">' + datumText + "</span>" +
         '<span class="n-title">' + t.titel + "</span>" +
         '<span class="n-meta">' + meta + "</span>" +
       "</a>";
+    if (t.anmeldung) li.appendChild(anmeldeButton(t.anmeldung, t.titel));
     list.appendChild(li);
   }
 
@@ -562,7 +631,7 @@
 
   // Beim Springen den Eintrag kurz hervorheben.
   list.addEventListener("click", function (ev) {
-    var a = ev.target.closest("a");
+    var a = ev.target.closest("a.n-link");
     if (!a) return;
     var ziel = document.getElementById(a.getAttribute("href").slice(1));
     if (!ziel) return;
@@ -570,6 +639,29 @@
     void ziel.offsetWidth;
     ziel.classList.add("flash");
   });
+})();
+
+// Haengt an jede Veranstaltung in den markierten Bereichen einen Anmelde-Button.
+(function () {
+  var bereiche = document.querySelectorAll("section.block[data-anmeldung]");
+  for (var i = 0; i < bereiche.length; i++) {
+    var eintraege = bereiche[i].querySelectorAll(".card > ul > li");
+    for (var j = 0; j < eintraege.length; j++) {
+      var li = eintraege[j];
+      var h3 = li.querySelector("h3");
+      var titel = li.getAttribute("data-title") || (h3 ? h3.textContent.trim() : "");
+
+      // Einzeiler (Filme): Text buendeln, damit der Button rechts steht.
+      if (li.parentNode.className.indexOf("plain") > -1) {
+        var text = document.createElement("span");
+        text.innerHTML = li.innerHTML;
+        li.innerHTML = "";
+        li.appendChild(text);
+      }
+
+      li.appendChild(anmeldeButton(li.getAttribute("data-form") || FORMS_URL, titel));
+    }
+  }
 })();
 </script>
 

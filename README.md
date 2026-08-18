@@ -39,6 +39,22 @@ Leitsprüche) erscheinen nur im Programm, nicht in der Übersicht. Sobald ein Da
 feststeht, genügt das Attribut – die Übersicht nimmt es automatisch auf.
 Ohne JavaScript bleibt die Box ausgeblendet, das Programm ist trotzdem vollständig da.
 
+## Anmeldung
+
+Angemeldet wird nur bei **Vorträgen & Gesprächen**, **Filmen** und
+**Gebet & Spiritualität**. Diese drei Bereiche tragen im HTML das Attribut
+`data-anmeldung` an ihrem `<section class="block">`; jede Veranstaltung darin
+bekommt automatisch einen „Anmelden"-Button, ebenso ihre Zeile in „Nächste Termine".
+
+Die Adresse des Formulars steht **an genau einer Stelle** – im `<script>` am Ende
+der Datei:
+
+    var FORMS_URL = "https://forms.office.com/";
+
+Soll ein Eintrag auf einen eigenen Link zeigen (z. B. auf einen in Microsoft Forms
+vorausgefüllten Link, bei dem die Veranstaltung schon angekreuzt ist), bekommt sein
+`<li>` zusätzlich `data-form="https://…"`. Das sticht `FORMS_URL` für diesen Eintrag.
+
 ## Regeln für Änderungen
 
 - **Pfade relativ halten.** Mit der Custom Domain liegt die Seite im Wurzel-
