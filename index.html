@@ -28,7 +28,12 @@
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    background: var(--orange);
+    /* Plakat-Orange mit der Papier-Koernung aus dem Original-PDF.
+       Liegt hinter dem Inhalt, die farbigen Bloecke bleiben glatt. */
+    background-color: var(--orange);
+    background-image: url("koernung.png");
+    background-size: 256px 256px;
+    background-blend-mode: overlay;
     color: var(--ink);
     font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
     line-height: 1.5;
