@@ -77,6 +77,50 @@
     flex: none;
   }
 
+  /* ---------- N&auml;chste Termine ---------- */
+  .upcoming {
+    background: var(--paper);
+    border-radius: 2rem;
+    padding: 1.5rem;
+    margin: 0 0 2.5rem;
+  }
+  .upcoming > h2 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 1rem;
+  }
+  ul.next { list-style: none; margin: 0; padding: 0; }
+  ul.next li + li { border-top: 1px solid rgba(62, 61, 73, 0.14); }
+  ul.next a {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+    padding: 0.7rem 0.25rem;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 0.5rem;
+  }
+  ul.next a:hover { background: rgba(62, 61, 73, 0.07); }
+  .n-date {
+    flex: none;
+    width: 6.5rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .n-title { font-weight: 600; }
+  .n-meta { font-size: 0.9rem; opacity: 0.72; }
+  .upcoming .all {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.92rem;
+    color: inherit;
+  }
+
   /* ---------- Sektionen ---------- */
   main { padding-bottom: 2rem; }
   .cols { columns: 1; column-gap: 1.5rem; }
@@ -110,6 +154,13 @@
     margin-top: 1.1rem;
     padding-top: 1.1rem;
     border-top: 1px solid rgba(62, 61, 73, 0.16);
+  }
+  .card li { scroll-margin-top: 1.5rem; border-radius: 0.75rem; }
+  .card li:target,
+  .card li.flash { animation: flash 2.2s ease-out; }
+  @keyframes flash {
+    0%, 45% { box-shadow: 0 0 0 0.6rem rgba(255, 255, 255, 0.65); background: rgba(255,255,255,0.35); }
+    100%    { box-shadow: 0 0 0 0.6rem rgba(255, 255, 255, 0); background: transparent; }
   }
   .when {
     font-size: 0.85rem;
@@ -189,6 +240,10 @@
   @media (min-width: 60rem) {
     .cols { columns: 2; }
   }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .card li:target, .card li.flash { animation: none; }
+  }
 </style>
 </head>
 <body>
@@ -206,49 +261,56 @@
 
 <main class="wrap">
 
-  <div class="cols">
+  <!-- Wird per JavaScript aus den Terminen unten gefuellt und nur dann angezeigt. -->
+  <section class="upcoming" id="upcoming" hidden>
+    <h2>N&auml;chste Termine</h2>
+    <ul class="next" id="next-list"></ul>
+    <a class="all" href="#programm">Ganzes Programm ansehen &darr;</a>
+  </section>
+
+  <div class="cols" id="programm">
 
     <section class="block">
       <h2>Vortr&auml;ge &amp; Gespr&auml;che</h2>
       <div class="card c-orange">
         <ul class="events">
-          <li>
+          <li data-date="2026-10-14" data-time="18.30 Uhr &middot; Theatersaal">
             <p class="when">Mi., 14.10.26</p>
             <h3>Zukunft der Religionen</h3>
             <p class="details">Prof. Dr. Martin R&ouml;tting (PLUS)</p>
             <p class="details">18.30 Uhr &middot; Theatersaal</p>
           </li>
-          <li>
+          <li data-date="2026-11-18" data-time="18.30 Uhr &middot; Theatersaal">
             <p class="when">Mi., 18.11.26</p>
             <h3>Advent in der Familie</h3>
             <p class="details">Praktische Anleitung zur Feier des Advents</p>
             <p class="details">18.30 Uhr &middot; Theatersaal</p>
           </li>
-          <li>
+          <li data-date="2027-01-20" data-time="18.30 Uhr &middot; Theatersaal">
             <p class="when">Mi., 20.1.27</p>
             <h3>MSC weltweit</h3>
             <p class="details">Begegnung mit Herz-Jesu-Missionaren</p>
             <p class="details">18.30 Uhr &middot; Theatersaal</p>
           </li>
-          <li>
+          <li data-date="2027-02-24" data-time="18.30 Uhr &middot; Theatersaal">
             <p class="when">Mi., 24.2.27</p>
             <h3>Innerlich zerrissen</h3>
             <p class="details">Biblisch-spirituelle Spuren zur Ganzheit</p>
             <p class="details">Dr. Eduard Baumann &middot; 18.30 Uhr &middot; Theatersaal</p>
           </li>
-          <li>
+          <li data-date="2027-03-17" data-time="18.30 Uhr &middot; Chevaliersaal">
             <p class="when">Mi., 17.3.27</p>
             <h3>&bdquo;Fastenbier und Laugenbreze&ldquo;</h3>
             <p class="details">Philosophicum mit Dr. Anton Bucher</p>
             <p class="details">18.30 Uhr &middot; Chevaliersaal</p>
           </li>
-          <li>
+          <li data-date="2027-04-14" data-time="18.30 Uhr &middot; Theatersaal">
             <p class="when">Mi., 14.4.27</p>
             <h3>Widerstand aus Berufung</h3>
             <p class="details">Franz und Franziska J&auml;gerst&auml;tter</p>
             <p class="details">Dr. Erna Putz &middot; 18.30 Uhr &middot; Theatersaal</p>
           </li>
-          <li>
+          <li data-date="2027-04-25" data-time="17.00 Uhr &middot; Festsaal &middot; Kloster">
             <p class="when">So., 25.4.27</p>
             <h3>Den Schatz der Eucharistie (neu) entdecken</h3>
             <p class="details">anschl. Abendliturgie</p>
@@ -262,7 +324,7 @@
       <h2>Gottesdienste &amp; Liturgie</h2>
       <div class="card c-violet">
         <ul class="events">
-          <li>
+          <li data-date="2026-10-16" data-time="18.00 Uhr &middot; Pfarrkirche Taxham">
             <p class="when">Fr., 16.10.26</p>
             <h3>Chevaliergottesdienst</h3>
             <p class="details">18.00 Uhr &middot; Pfarrkirche Taxham</p>
@@ -271,16 +333,16 @@
             <p class="when">30.11.26 &ndash; 21.12.26</p>
             <h3>Rorate</h3>
             <ul class="plain">
-              <li>Mo., 30.11.26 &middot; 7./8. Klassen</li>
-              <li>Mi., 2.12.26 &middot; 3. Klassen</li>
-              <li>Do., 3.12.26 &middot; 4. Klassen</li>
-              <li>Mo., 14.12.26 &middot; 1. Klassen</li>
-              <li>Mi., 16.12.26 &middot; 5./6. Klassen</li>
-              <li>Mo., 21.12.26 &middot; 2. Klassen</li>
+              <li data-date="2026-11-30" data-title="Rorate &middot; 7./8. Klassen" data-time="9.30 Uhr &middot; Klosterkirche">Mo., 30.11.26 &middot; 7./8. Klassen</li>
+              <li data-date="2026-12-02" data-title="Rorate &middot; 3. Klassen" data-time="9.30 Uhr &middot; Klosterkirche">Mi., 2.12.26 &middot; 3. Klassen</li>
+              <li data-date="2026-12-03" data-title="Rorate &middot; 4. Klassen" data-time="9.30 Uhr &middot; Klosterkirche">Do., 3.12.26 &middot; 4. Klassen</li>
+              <li data-date="2026-12-14" data-title="Rorate &middot; 1. Klassen" data-time="9.30 Uhr &middot; Klosterkirche">Mo., 14.12.26 &middot; 1. Klassen</li>
+              <li data-date="2026-12-16" data-title="Rorate &middot; 5./6. Klassen" data-time="9.30 Uhr &middot; Klosterkirche">Mi., 16.12.26 &middot; 5./6. Klassen</li>
+              <li data-date="2026-12-21" data-title="Rorate &middot; 2. Klassen" data-time="9.30 Uhr &middot; Klosterkirche">Mo., 21.12.26 &middot; 2. Klassen</li>
             </ul>
             <p class="details" style="margin-top:0.4rem">9.30 Uhr &middot; Klosterkirche</p>
           </li>
-          <li>
+          <li data-date="2027-07-09" data-time="9.30 Uhr &middot; Pfarrkirche Taxham">
             <p class="when">Fr., 9.7.27</p>
             <h3>Dankgottesdienst</h3>
             <p class="details">9.30 Uhr &middot; Pfarrkirche Taxham</p>
@@ -293,7 +355,7 @@
       <h2>Musik</h2>
       <div class="card c-peach">
         <ul class="events">
-          <li>
+          <li data-date="2027-05-26" data-time="18.30 Uhr &middot; Klosterkirche">
             <p class="when">Mi., 26.5.27</p>
             <h3>Geistliches Konzert, anschl. Agape</h3>
             <p class="details">18.30 Uhr &middot; Klosterkirche</p>
@@ -306,17 +368,17 @@
       <h2>Besondere Angebote</h2>
       <div class="card c-cream">
         <ul class="events">
-          <li>
+          <li data-date="2027-01-18" data-time="bis Fr., 22.1.27">
             <p class="when">Mo., 18.1. &ndash; Fr., 22.1.27</p>
             <h3>Internationale MSC besuchen die Klassen</h3>
             <p class="details">und berichten aus Leben und Mission</p>
           </li>
-          <li>
+          <li data-date="2027-03-25" data-time="bis So., 28.3.27">
             <p class="when">Do., 25.3. &ndash; So., 28.3.27</p>
             <h3>Kartage bewusst erleben und Liturgie mitgestalten</h3>
             <p class="details">f&uuml;r unsere Ministrantengruppe</p>
           </li>
-          <li>
+          <li data-date="2027-04-14" data-time="8.00 &amp; 10.00 Uhr &middot; f&uuml;r Klassen">
             <p class="when">Mi., 14.4.27</p>
             <h3>Widerstand aus Berufung</h3>
             <p class="details">Franz und Franziska J&auml;gerst&auml;tter &middot; Dr. Erna Putz</p>
@@ -335,16 +397,16 @@
       <h2>Film</h2>
       <div class="card c-yellow">
         <ul class="plain">
-          <li><strong>Mi., 23.9.26</strong> &middot; Juno (alle)</li>
-          <li><strong>Do., 22.10.26</strong> &middot; Die beste aller Welten (ab 5. Kl.)</li>
-          <li><strong>Do., 5.11.26</strong> &middot; David Attenborough &ndash; Mein Leben auf unserem Planeten (alle)</li>
-          <li><strong>Do., 17.12.26</strong> &middot; Von Menschen und G&ouml;ttern (ab 5. Kl.)</li>
-          <li><strong>Do., 7.1.27</strong> &middot; Buy Now! The Shopping Conspiracy (alle)</li>
-          <li><strong>Do., 11.2.27</strong> &middot; Terror &ndash; Ihr Urteil (alle)</li>
-          <li><strong>Do., 18.3.27</strong> &middot; Radical (ab 5. Kl.)</li>
-          <li><strong>Do., 1.4.27</strong> &middot; Paulus &ndash; Der Apostel (ab 3. Kl.)</li>
-          <li><strong>Mo., 10.5.27</strong> &middot; Die H&uuml;tte &ndash; Ein Wochenende mit Gott (ab 3. Kl.)</li>
-          <li><strong>Do., 24.6.27</strong> &middot; Soul (alle)</li>
+          <li data-date="2026-09-23" data-title="Juno (alle)" data-time="17.00 Uhr &middot; Theatersaal"><strong>Mi., 23.9.26</strong> &middot; Juno (alle)</li>
+          <li data-date="2026-10-22" data-title="Die beste aller Welten (ab 5. Kl.)" data-time="17.00 Uhr &middot; Theatersaal"><strong>Do., 22.10.26</strong> &middot; Die beste aller Welten (ab 5. Kl.)</li>
+          <li data-date="2026-11-05" data-title="David Attenborough &ndash; Mein Leben auf unserem Planeten (alle)" data-time="17.00 Uhr &middot; Theatersaal"><strong>Do., 5.11.26</strong> &middot; David Attenborough &ndash; Mein Leben auf unserem Planeten (alle)</li>
+          <li data-date="2026-12-17" data-title="Von Menschen und G&ouml;ttern (ab 5. Kl.)" data-time="17.00 Uhr &middot; Theatersaal"><strong>Do., 17.12.26</strong> &middot; Von Menschen und G&ouml;ttern (ab 5. Kl.)</li>
+          <li data-date="2027-01-07" data-title="Buy Now! The Shopping Conspiracy (alle)" data-time="17.00 Uhr &middot; Theatersaal"><strong>Do., 7.1.27</strong> &middot; Buy Now! The Shopping Conspiracy (alle)</li>
+          <li data-date="2027-02-11" data-title="Terror &ndash; Ihr Urteil (alle)" data-time="17.00 Uhr &middot; Theatersaal"><strong>Do., 11.2.27</strong> &middot; Terror &ndash; Ihr Urteil (alle)</li>
+          <li data-date="2027-03-18" data-title="Radical (ab 5. Kl.)" data-time="17.00 Uhr &middot; Theatersaal"><strong>Do., 18.3.27</strong> &middot; Radical (ab 5. Kl.)</li>
+          <li data-date="2027-04-01" data-title="Paulus &ndash; Der Apostel (ab 3. Kl.)" data-time="17.00 Uhr &middot; Theatersaal"><strong>Do., 1.4.27</strong> &middot; Paulus &ndash; Der Apostel (ab 3. Kl.)</li>
+          <li data-date="2027-05-10" data-title="Die H&uuml;tte &ndash; Ein Wochenende mit Gott (ab 3. Kl.)" data-time="17.00 Uhr &middot; Theatersaal"><strong>Mo., 10.5.27</strong> &middot; Die H&uuml;tte &ndash; Ein Wochenende mit Gott (ab 3. Kl.)</li>
+          <li data-date="2027-06-24" data-title="Soul (alle)" data-time="17.00 Uhr &middot; Theatersaal"><strong>Do., 24.6.27</strong> &middot; Soul (alle)</li>
         </ul>
         <p class="note">jeweils um 17.00 Uhr im Theatersaal</p>
       </div>
@@ -354,7 +416,7 @@
       <h2>Gebet &amp; Spiritualit&auml;t</h2>
       <div class="card c-blue">
         <ul class="events">
-          <li>
+          <li data-date="2026-09-28" data-time="9.00 &amp; 12.00 Uhr &middot; bis Fr., 2.10.26">
             <p class="when">Mo., 28.9. &ndash; Fr., 2.10.26</p>
             <h3>Spirituelle Impulse im Schulalltag</h3>
             <p class="details">&bdquo;Momente der Dankbarkeit und des Staunens&ldquo;</p>
@@ -371,16 +433,20 @@
             <p class="details">07.30&ndash;07.45 Uhr</p>
             <p class="details">Oberstufe &middot; Josefskapelle</p>
           </li>
-          <li>
+          <li data-date="2027-04-04" data-time="7.00 &amp; 18.30 Uhr &middot; bis So., 11.4.27">
             <p class="when">So., 4.4. &ndash; So., 11.4.27</p>
             <h3>M&ouml;glichkeit, das Stundengebet mit den Missionaren mitzubeten</h3>
             <p class="details">7.00 Uhr (So. 7.30 Uhr) &amp; 18.30 Uhr (So. 17.30 Uhr)</p>
             <p class="details">Klosterkirche</p>
           </li>
           <li>
-            <p class="when">Mi., 5.5.27 &middot; Mi., 12.5.27 &middot; Mi., 19.5.27</p>
             <h3>Marien-/Maiandachten, anschl. Agape</h3>
-            <p class="details">18.30 Uhr &middot; Klosterkirche</p>
+            <ul class="plain">
+              <li data-date="2027-05-05" data-title="Marien-/Maiandacht, anschl. Agape" data-time="18.30 Uhr &middot; Klosterkirche">Mi., 5.5.27</li>
+              <li data-date="2027-05-12" data-title="Marien-/Maiandacht, anschl. Agape" data-time="18.30 Uhr &middot; Klosterkirche">Mi., 12.5.27</li>
+              <li data-date="2027-05-19" data-title="Marien-/Maiandacht, anschl. Agape" data-time="18.30 Uhr &middot; Klosterkirche">Mi., 19.5.27</li>
+            </ul>
+            <p class="details" style="margin-top:0.4rem">18.30 Uhr &middot; Klosterkirche</p>
           </li>
         </ul>
       </div>
@@ -395,11 +461,11 @@
             <p class="details">(Oberstufe) &middot; 17.00 Uhr &middot; Josefskapelle</p>
             <p class="details">anschl. Beisammensein mit</p>
             <ul class="plain">
-              <li>Fr., 6.11.26 &middot; Oberstufenchor</li>
-              <li>Fr., 8.1.27 &middot; Ministrierende</li>
-              <li>Fr., 5.2.27 &middot; Internat</li>
-              <li>Fr., 5.3.27 &middot; Maturantinnen &amp; Maturanten</li>
-              <li>Fr., 2.4.27 &middot; Sch&uuml;ler*innenvertretung</li>
+              <li data-date="2026-11-06" data-title="Herz-Jesu-Freitag &middot; Oberstufenchor" data-time="17.00 Uhr &middot; Josefskapelle">Fr., 6.11.26 &middot; Oberstufenchor</li>
+              <li data-date="2027-01-08" data-title="Herz-Jesu-Freitag &middot; Ministrierende" data-time="17.00 Uhr &middot; Josefskapelle">Fr., 8.1.27 &middot; Ministrierende</li>
+              <li data-date="2027-02-05" data-title="Herz-Jesu-Freitag &middot; Internat" data-time="17.00 Uhr &middot; Josefskapelle">Fr., 5.2.27 &middot; Internat</li>
+              <li data-date="2027-03-05" data-title="Herz-Jesu-Freitag &middot; Maturantinnen &amp; Maturanten" data-time="17.00 Uhr &middot; Josefskapelle">Fr., 5.3.27 &middot; Maturantinnen &amp; Maturanten</li>
+              <li data-date="2027-04-02" data-title="Herz-Jesu-Freitag &middot; Sch&uuml;ler*innenvertretung" data-time="17.00 Uhr &middot; Josefskapelle">Fr., 2.4.27 &middot; Sch&uuml;ler*innenvertretung</li>
             </ul>
           </li>
         </ul>
@@ -425,6 +491,87 @@
   <p class="wordmark">AMETUR.</p>
   <p class="imprint">Privatgymnasium der Herz-Jesu-Missionare &middot; ametur.herzjesugym.at</p>
 </footer>
+
+<script>
+// Baut die Liste "Naechste Termine" aus allen Eintraegen mit data-date.
+(function () {
+  var MAX = 5;
+  var box = document.getElementById("upcoming");
+  var list = document.getElementById("next-list");
+  if (!box || !list) return;
+
+  var heute = new Date();
+  heute.setHours(0, 0, 0, 0);
+
+  var termine = [];
+  var eintraege = document.querySelectorAll("[data-date]");
+
+  for (var i = 0; i < eintraege.length; i++) {
+    var el = eintraege[i];
+    var teile = el.getAttribute("data-date").split("-");
+    var datum = new Date(+teile[0], +teile[1] - 1, +teile[2]);
+    if (datum < heute) continue;
+
+    var titel = el.getAttribute("data-title");
+    if (!titel) {
+      var h3 = el.querySelector("h3");
+      titel = h3 ? h3.innerHTML : el.innerHTML;
+    }
+    var sektion = el.closest("section.block");
+    if (!el.id) el.id = "t" + i;
+
+    termine.push({
+      datum: datum,
+      titel: titel,
+      bereich: sektion ? sektion.querySelector("h2").textContent.trim() : "",
+      zeit: el.getAttribute("data-time") || "",
+      ziel: el.id
+    });
+  }
+
+  if (!termine.length) return;
+
+  termine.sort(function (a, b) { return a.datum - b.datum; });
+  termine = termine.slice(0, MAX);
+
+  var fmt;
+  try {
+    fmt = new Intl.DateTimeFormat("de-AT", { weekday: "short", day: "numeric", month: "short" });
+  } catch (e) {
+    fmt = null;
+  }
+
+  for (var j = 0; j < termine.length; j++) {
+    var t = termine[j];
+    var datumText = fmt
+      ? fmt.format(t.datum)
+      : t.datum.getDate() + "." + (t.datum.getMonth() + 1) + ".";
+    var meta = [t.bereich, t.zeit].filter(Boolean).join(" &middot; ");
+
+    var li = document.createElement("li");
+    li.innerHTML =
+      '<a href="#' + t.ziel + '">' +
+        '<span class="n-date">' + datumText + "</span>" +
+        '<span class="n-title">' + t.titel + "</span>" +
+        '<span class="n-meta">' + meta + "</span>" +
+      "</a>";
+    list.appendChild(li);
+  }
+
+  box.hidden = false;
+
+  // Beim Springen den Eintrag kurz hervorheben.
+  list.addEventListener("click", function (ev) {
+    var a = ev.target.closest("a");
+    if (!a) return;
+    var ziel = document.getElementById(a.getAttribute("href").slice(1));
+    if (!ziel) return;
+    ziel.classList.remove("flash");
+    void ziel.offsetWidth;
+    ziel.classList.add("flash");
+  });
+})();
+</script>
 
 </body>
 </html>

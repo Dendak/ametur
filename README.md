@@ -23,6 +23,22 @@ Microsoft-Forms-Formular. Ändert sich das Formular, wird nur der Link in
 `index.html` plus `ametur-logo.png` (aus dem Plakat-PDF extrahiert). Kein Build, kein Framework, keine Serverlogik –
 GitHub Pages liefert nur statische Dateien aus.
 
+## „Nächste Termine"
+
+Oben auf der Seite steht eine Liste der nächsten fünf Veranstaltungen. Sie wird beim
+Öffnen der Seite im Browser aus dem Programm darunter gebaut – es gibt keine zweite
+Terminliste, die gepflegt werden müsste.
+
+Grundlage ist das Attribut `data-date="JJJJ-MM-TT"` an einem Listeneintrag. Ergänzend:
+
+- `data-time` – kurze Zeit-/Ortsangabe für die Übersicht
+- `data-title` – Titel, wenn der Eintrag kein `<h3>` hat (z. B. Filme, Rorate)
+
+Einträge ohne `data-date` (Taizégebet „im Oktober", Exerzitien „Fastenzeit",
+Leitsprüche) erscheinen nur im Programm, nicht in der Übersicht. Sobald ein Datum
+feststeht, genügt das Attribut – die Übersicht nimmt es automatisch auf.
+Ohne JavaScript bleibt die Box ausgeblendet, das Programm ist trotzdem vollständig da.
+
 ## Regeln für Änderungen
 
 - **Pfade relativ halten.** Mit der Custom Domain liegt die Seite im Wurzel-
