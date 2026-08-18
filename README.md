@@ -1,6 +1,6 @@
 # AMETUR
 
-Statische Seite zum A1-Jahresprogramm „AMETUR – Menschenbild und Spiritualität"
+Statische Seite zum Jahresprogramm „AMETUR – Menschenbild und Spiritualität"
 (Schuljahr 2026/27), Privatgymnasium der Herz-Jesu-Missionare.
 
 Zweck: Der gedruckte QR-Code zeigt auf diese Seite, nicht direkt auf das
