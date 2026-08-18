@@ -23,6 +23,13 @@ Microsoft-Forms-Formular. Ändert sich das Formular, wird nur der Link in
 `index.html` plus `ametur-logo.png` (aus dem Plakat-PDF extrahiert). Kein Build, kein Framework, keine Serverlogik –
 GitHub Pages liefert nur statische Dateien aus.
 
+## Papier-Körnung
+
+Der orange Hintergrund trägt die Körnung des Plakats. Sie steckt in `koernung.png`
+– einer nahtlos kachelbaren Rauschkachel aus der Texturebene des Original-PDFs – und
+wird per `background-blend-mode: overlay` mit dem Orange verrechnet. Sie liegt
+**hinter** dem Inhalt, die farbigen Blöcke bleiben glatt.
+
 ## „Nächste Termine"
 
 Oben auf der Seite steht eine Liste der nächsten fünf Veranstaltungen. Sie wird beim
