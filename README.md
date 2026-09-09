@@ -53,14 +53,28 @@ Angemeldet wird nur bei **Vorträgen & Gesprächen**, **Filmen** und
 `data-anmeldung` an ihrem `<section class="block">`; jede Veranstaltung darin
 bekommt automatisch einen „Anmelden"-Button, ebenso ihre Zeile in „Nächste Termine".
 
-Die Adresse des Formulars steht **an genau einer Stelle** – im `<script>` am Ende
-der Datei:
+Das Formular heißt **„AMETUR – Anmeldung"** und liegt in Microsoft Forms
+(Konto Denis Holub). Es hat eine Frage mit allen anmeldepflichtigen Veranstaltungen
+als Mehrfachauswahl, dazu Name, Kontakt, Personenzahl und Anmerkungen. Antworten
+darf **jede Person** (anonym, ohne Anmeldung) – sonst kämen Eltern nicht hinein.
 
-    var FORMS_URL = "https://forms.office.com/";
+Die allgemeine Adresse steht als `FORMS_URL` im `<script>` am Seitenende.
+Zusätzlich trägt **jede** anmeldepflichtige Veranstaltung ein eigenes
+`data-form="…"` – einen vorausgefüllten Link, bei dem genau diese Veranstaltung
+schon angekreuzt ist. `data-form` sticht `FORMS_URL`.
 
-Soll ein Eintrag auf einen eigenen Link zeigen (z. B. auf einen in Microsoft Forms
-vorausgefüllten Link, bei dem die Veranstaltung schon angekreuzt ist), bekommt sein
-`<li>` zusätzlich `data-form="https://…"`. Das sticht `FORMS_URL` für diesen Eintrag.
+Aufbau eines solchen Links:
+
+    https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=<Formular-ID>
+      &rdcf9fc59ab6b40e59a7c4eecb5c9d3fb=<URL-kodiert: "[\"Optionstext\"]">
+
+`rdcf9…` ist die ID der Veranstaltungsfrage. Der Optionstext muss **zeichengenau**
+mit der Antwortmöglichkeit in Forms übereinstimmen, sonst bleibt das Kästchen leer.
+
+Kommt eine Veranstaltung dazu: erst die Antwortmöglichkeit in Forms ergänzen,
+dann denselben Text hier als `data-form`-Link einsetzen. Ändert sich das Formular
+komplett, werden `FORMS_URL` und die `data-form`-Links getauscht – die gedruckten
+Plakate bleiben gültig, weil der QR-Code auf diese Seite zeigt.
 
 ## Regeln für Änderungen
 
