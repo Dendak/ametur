@@ -284,6 +284,58 @@
     line-height: 0.9;
     margin: 0 0 0.75rem;
   }
+  /* ---------- Leitspruch ---------- */
+  .motto {
+    background: var(--paper);
+    border-radius: 2rem;
+    padding: 2.25rem 1.5rem 1.75rem;
+    margin: 0 0 2.5rem;
+    text-align: center;
+  }
+  .motto-kicker {
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin: 0 0 0.9rem;
+  }
+  .motto-latein {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: clamp(1.45rem, 4.4vw, 2.3rem);
+    line-height: 1.25;
+    margin: 0 auto 0.6rem;
+    max-width: 40rem;
+  }
+  .motto-latein b {
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .motto-deutsch {
+    font-size: 1.05rem;
+    margin: 0 0 1.75rem;
+  }
+  .motto-sprachen {
+    list-style: none;
+    margin: 0;
+    padding: 1.5rem 0 0;
+    border-top: 1px solid rgba(62, 61, 73, 0.14);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem 1.75rem;
+    text-align: left;
+  }
+  .motto-sprachen li { font-size: 0.95rem; line-height: 1.45; }
+  .motto-sprachen .sprache {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: 0.1rem;
+  }
+
   .imprint {
     font-size: 0.9rem;
     color: var(--paper);
@@ -582,6 +634,25 @@
       Jede dieser Veranstaltungen hat oben ihren eigenen Anmelde-Button.</p>
     <p class="hint">Im Formular gen&uuml;gen Name und die Anzahl der Personen
       &ndash; bis zu zehn mit einem Klick.</p>
+  </section>
+
+  <section class="motto" aria-labelledby="motto-titel">
+    <p class="motto-kicker" id="motto-titel">Leitspruch der Herz-Jesu-Missionare</p>
+    <p class="motto-latein" lang="la"><b>AMETUR</b> ubique terrarum Cor Iesu Sacratissimum</p>
+    <p class="motto-deutsch">Geliebt sei überall das Heiligste Herz Jesu</p>
+    <ul class="motto-sprachen">
+      <li><span class="sprache">Englisch</span><span lang="en">May the Sacred Heart of Jesus be loved everywhere</span></li>
+      <li><span class="sprache">Französisch</span><span lang="fr">Aimé soit partout le Sacré-Cœur de Jésus</span></li>
+      <li><span class="sprache">Italienisch</span><span lang="it">Sia amato in tutto il mondo il Sacratissimo Cuore di Gesù</span></li>
+      <li><span class="sprache">Spanisch</span><span lang="es">Amado sea en todas partes el Sagrado Corazón de Jesús</span></li>
+      <li><span class="sprache">Russisch</span><span lang="ru">Да будет Пресвятое Сердце Иисуса любимым повсюду</span></li>
+      <li><span class="sprache">Griechisch</span><span lang="grc">Ἀγαπάσθω πανταχοῦ ἡ Παναγιωτάτη Καρδία τοῦ Ἰησοῦ</span></li>
+      <li><span class="sprache">Tschechisch</span><span lang="cs">Ať je všude milováno Nejsvětější Srdce Ježíšovo</span></li>
+      <li><span class="sprache">Slowakisch</span><span lang="sk">Nech je všade milované Najsvätejšie Srdce Ježišovo</span></li>
+      <li><span class="sprache">Niederländisch</span><span lang="nl">Bemind zij overal het Heilig Hart van Jezus</span></li>
+      <li><span class="sprache">Ungarisch</span><span lang="hu">Jézus Legszentebb Szívét szeressék az egész világon</span></li>
+      <li><span class="sprache">Kiribatisch</span><span lang="gil">E bia tangiraki n tabo ni kabane Atinibanin Jesus ae moan te tabu</span></li>
+    </ul>
   </section>
 
 </main>
