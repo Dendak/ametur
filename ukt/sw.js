@@ -1,5 +1,5 @@
 /* Offline-Cache für das Wartungsprotokoll (App-Shell) */
-const CACHE = "ukt-protokoll-v1";
+const CACHE = "ukt-protokoll-v2";
 const ASSETS = [
   "./",
   "./index.html",

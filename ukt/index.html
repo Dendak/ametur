@@ -76,7 +76,9 @@ input[type=text], input[type=date], input[type=datetime-local], input[type=email
 }
 textarea { min-height: 72px; resize: vertical; }
 input:focus, textarea:focus, select:focus { outline: 2px solid var(--brand); outline-offset: 0; border-color: var(--brand); }
-.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.row2 { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px; }
+.row2 > * { min-width: 0; }
+input, select, textarea { min-width: 0; max-width: 100%; }
 @media (max-width: 420px) { .row2.tight-stack { grid-template-columns: 1fr; } }
 .choices { display: flex; flex-wrap: wrap; gap: 8px; }
 .choices label.chip {
@@ -186,6 +188,21 @@ dialog button.primary { background: var(--brand); color: #fff; }
 .error-hint { color: var(--danger); font-size: 13px; margin-top: 4px; display: none; }
 .invalid input[type=text], .invalid input[type=date] { border-color: var(--danger); }
 .invalid .error-hint { display: block; }
+main section.step { display: none; }
+main section.step.active { display: block; }
+.wizard-progress {
+  max-width: 720px;
+  margin: 12px auto 0;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.wizard-progress .bar { flex: 1; height: 5px; background: #d7dee6; border-radius: 3px; overflow: hidden; }
+.wizard-progress .bar i { display: block; height: 100%; background: var(--brand); width: 0; transition: width .25s; }
+.footer-bar button.nav-back { padding: 14px 18px; font-size: 16px; }
 </style>
 </head>
 <body>
@@ -194,8 +211,13 @@ dialog button.primary { background: var(--brand); color: #fff; }
   <div class="sub">Kammerlander Umwelt- und Klimatechnik GmbH</div>
 </header>
 
+<div class="wizard-progress">
+  <span id="step-label"></span>
+  <div class="bar"><i id="step-bar"></i></div>
+</div>
+
 <main>
-  <section class="card">
+  <section class="card step">
     <h2>Auftrag</h2>
     <div class="card-body">
       <div class="row2">
@@ -244,7 +266,7 @@ dialog button.primary { background: var(--brand); color: #fff; }
     </div>
   </section>
 
-  <section class="card">
+  <section class="card step">
     <h2>Wartungsunternehmen</h2>
     <div class="card-body">
       <div class="field">
@@ -284,7 +306,7 @@ dialog button.primary { background: var(--brand); color: #fff; }
     </div>
   </section>
 
-  <section class="card">
+  <section class="card step">
     <h2>Anlagendaten</h2>
     <div class="card-body">
       <div id="anlagen"></div>
@@ -292,9 +314,10 @@ dialog button.primary { background: var(--brand); color: #fff; }
     </div>
   </section>
 
-  <section class="card">
+  <section class="card step">
     <h2>Durchgeführte Wartungsarbeiten</h2>
     <div class="card-body">
+      <p class="subtle" style="margin:0 0 10px;">Nur ankreuzen, was tatsächlich gemacht wurde – nur das erscheint im Protokoll.</p>
       <div class="checklist" id="arbeiten"></div>
       <div class="field" style="margin-top:10px;">
         <label class="lbl" for="arbeiten_sonst">Sonstiges</label>
@@ -303,11 +326,20 @@ dialog button.primary { background: var(--brand); color: #fff; }
     </div>
   </section>
 
-  <section class="card">
+  <section class="card step">
     <h2>Festgestellte Mängel und Empfehlungen</h2>
     <div class="card-body">
-      <div id="maengel"></div>
-      <button type="button" class="secondary" id="btn-add-mangel">+ Mangel hinzufügen</button>
+      <div class="field">
+        <label class="lbl">Wurden Mängel festgestellt?</label>
+        <div class="choices">
+          <label class="chip"><input type="radio" name="maengel_ja" value="nein" checked>nein</label>
+          <label class="chip"><input type="radio" name="maengel_ja" value="ja">ja</label>
+        </div>
+      </div>
+      <div id="maengel-detail" style="display:none">
+        <div id="maengel"></div>
+        <button type="button" class="secondary" id="btn-add-mangel">+ Mangel hinzufügen</button>
+      </div>
       <div class="field" style="margin-top:14px;">
         <label class="lbl">Anlage betriebsbereit</label>
         <div class="choices">
@@ -327,7 +359,7 @@ dialog button.primary { background: var(--brand); color: #fff; }
     </div>
   </section>
 
-  <section class="card">
+  <section class="card step">
     <h2>Ergebnis und Bemerkungen</h2>
     <div class="card-body">
       <div class="checklist">
@@ -343,7 +375,7 @@ dialog button.primary { background: var(--brand); color: #fff; }
     </div>
   </section>
 
-  <section class="card">
+  <section class="card step">
     <h2>Abschluss und Unterschriften</h2>
     <div class="card-body">
       <div class="field">
@@ -377,8 +409,9 @@ dialog button.primary { background: var(--brand); color: #fff; }
 </main>
 
 <div class="footer-bar">
+  <button type="button" class="secondary nav-back" id="btn-back">Zurück</button>
   <div style="flex:1">
-    <button type="button" class="primary" id="btn-pdf" style="width:100%">PDF erstellen &amp; senden</button>
+    <button type="button" class="primary" id="btn-next" style="width:100%">Weiter</button>
     <div class="badge-saved" id="saved-badge"></div>
   </div>
 </div>
@@ -550,6 +583,14 @@ document.addEventListener("change", (e) => {
   if (e.target.name === "wartungsart") $("#wartungsart_sonst").style.display = e.target.value === "sonstige" ? "" : "none";
   if (e.target.name === "subunternehmen") $("#subunternehmen_name").style.display = e.target.value === "ja" ? "" : "none";
   if (e.target.name === "sofort") $("#sofort_text").style.display = e.target.value === "ja" ? "" : "none";
+  if (e.target.name === "maengel_ja") {
+    const ja = e.target.value === "ja";
+    $("#maengel-detail").style.display = ja ? "" : "none";
+    if (ja && $$("#maengel .mangel-row").length === 0) addMangel();
+    // Ergebnis-Vorbelegung passend zur Antwort
+    $("#erg_maengel").checked = ja;
+    $("#erg_ok").checked = !ja;
+  }
 });
 
 /* ============================================================
@@ -610,7 +651,8 @@ function makeSigPad(canvasId) {
       hint.style.display = "";
     },
     isEmpty: () => !hasInk,
-    dataURL: () => hasInk ? canvas.toDataURL("image/png") : null
+    dataURL: () => hasInk ? canvas.toDataURL("image/png") : null,
+    resize // nach Einblenden des Schritts aufrufen (Canvas hat sonst Breite 0)
   };
 }
 const sigPads = { sig1: makeSigPad("sig1"), sig2: makeSigPad("sig2") };
@@ -639,7 +681,8 @@ function collect() {
       standort_ag: $(`#standort_ag${n}`).value.trim()
     };
   });
-  const maengel = $$("#maengel .mangel-row").map(div => ({
+  const maengelJa = radioVal("maengel_ja") === "ja";
+  const maengel = !maengelJa ? [] : $$("#maengel .mangel-row").map(div => ({
     text: div.querySelector(".m-text").value.trim(),
     prio: div.querySelector(".m-prio").value,
     massnahme: div.querySelector(".m-massnahme").value.trim()
@@ -663,6 +706,7 @@ function collect() {
     anlagen,
     arbeiten: $$("#arbeiten input").map(cb => cb.checked),
     arbeiten_sonst: $("#arbeiten_sonst").value.trim(),
+    maengel_ja: radioVal("maengel_ja"),
     maengel,
     betriebsbereit: radioVal("betriebsbereit"),
     sofort: radioVal("sofort"),
@@ -722,6 +766,7 @@ function loadDraft() {
       $("#fgase_person").value = s.fgase_person || "";
     }
     addAnlage();
+    $("#erg_ok").checked = true;
     return;
   }
   $("#datum").value = d.datum || "";
@@ -743,6 +788,7 @@ function loadDraft() {
   (d.arbeiten || []).forEach((v, i) => { const cb = document.querySelector(`[data-arbeit="${i}"]`); if (cb) cb.checked = v; });
   $("#arbeiten_sonst").value = d.arbeiten_sonst || "";
   (d.maengel || []).forEach(m => addMangel(m));
+  setRadio("maengel_ja", d.maengel_ja);
   setRadio("betriebsbereit", d.betriebsbereit);
   setRadio("sofort", d.sofort);
   $("#sofort_text").value = d.sofort_text || "";
@@ -893,6 +939,13 @@ function buildPdf(d) {
 
   /* --- Anlagendaten --- */
   sectionHead("Anlagendaten");
+  const anlagenMitDaten = d.anlagen.filter(a => a.typ || a.hersteller || a.modell || a.seriennr || a.standort_ag);
+  if (anlagenMitDaten.length === 0) {
+    pageBreak(6);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(8.5);
+    doc.text("Keine Anlagendaten erfasst.", ML, y);
+    y += 5.5;
+  }
   d.anlagen.forEach((a, i) => {
     const hasData = a.typ || a.hersteller || a.modell || a.seriennr || a.standort_ag;
     if (!hasData) return;
@@ -909,23 +962,30 @@ function buildPdf(d) {
     y += 1;
   });
 
-  /* --- Wartungsarbeiten --- */
+  /* --- Wartungsarbeiten: nur die tatsächlich durchgeführten --- */
   sectionHead("Durchgeführte Wartungsarbeiten");
-  doc.setFontSize(8);
-  const colWidth = CW / 2;
-  ARBEITEN.forEach((txt, i) => {
-    const col = i % 2, row = Math.floor(i / 2);
-    if (col === 0) pageBreak(5);
-    const x = ML + col * colWidth;
-    const yy = y;
-    checkbox(x, yy, d.arbeiten[i]);
-    doc.setFont("helvetica", "normal");
+  const done = ARBEITEN.filter((_, i) => d.arbeiten[i]);
+  if (done.length === 0 && !d.arbeiten_sonst) {
+    pageBreak(6);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(8.5);
+    doc.text("Keine Wartungsarbeiten erfasst.", ML, y);
+    y += 5.5;
+  } else {
     doc.setFontSize(8);
-    doc.text(doc.splitTextToSize(txt, colWidth - 8), x + 5, yy);
-    if (col === 1 || i === ARBEITEN.length - 1) y += 5;
-  });
-  y += 1;
-  textBlock("Sonstiges:", d.arbeiten_sonst);
+    const colWidth = CW / 2;
+    done.forEach((txt, i) => {
+      const col = i % 2;
+      if (col === 0) pageBreak(5);
+      const x = ML + col * colWidth;
+      checkbox(x, y, true);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.text(doc.splitTextToSize(txt, colWidth - 8), x + 5, y);
+      if (col === 1 || i === done.length - 1) y += 5;
+    });
+    y += 1;
+    textBlock("Sonstiges:", d.arbeiten_sonst);
+  }
 
   /* --- Mängel --- */
   sectionHead("Festgestellte Mängel und Empfehlungen");
@@ -1022,25 +1082,54 @@ function buildPdf(d) {
 }
 
 /* ============================================================
-   Validierung + Erstellen + Teilen
+   Wizard: ein Schritt nach dem anderen
 ============================================================ */
-function validate() {
+const steps = $$("main section.step");
+const STEP_CHECKS = [
+  [["#f-datum", "#datum"], ["#f-filiale", "#filiale"]],  // Auftrag
+  [["#f-techniker", "#techniker"]]                        // Wartungsunternehmen
+];
+let curStep = 0;
+
+function validateStep(i) {
   let ok = true;
-  [["#f-datum", "#datum"], ["#f-filiale", "#filiale"], ["#f-techniker", "#techniker"]].forEach(([wrap, input]) => {
+  (STEP_CHECKS[i] || []).forEach(([wrap, input]) => {
     const empty = !$(input).value.trim();
     $(wrap).classList.toggle("invalid", empty);
     if (empty) ok = false;
   });
-  if (!ok) {
-    document.querySelector(".invalid").scrollIntoView({ behavior: "smooth", block: "center" });
-  }
+  if (!ok) document.querySelector(".invalid").scrollIntoView({ behavior: "smooth", block: "center" });
   return ok;
 }
 
+function showStep(i) {
+  curStep = Math.max(0, Math.min(i, steps.length - 1));
+  steps.forEach((s, j) => s.classList.toggle("active", j === curStep));
+  const last = curStep === steps.length - 1;
+  $("#btn-next").textContent = last ? "PDF erstellen & senden" : "Weiter";
+  $("#btn-back").style.visibility = curStep === 0 ? "hidden" : "visible";
+  $("#step-label").textContent = `Schritt ${curStep + 1} von ${steps.length}`;
+  $("#step-bar").style.width = `${((curStep + 1) / steps.length) * 100}%`;
+  if (last) { sigPads.sig1.resize(); sigPads.sig2.resize(); }
+  window.scrollTo({ top: 0 });
+}
+
+$("#btn-back").addEventListener("click", () => showStep(curStep - 1));
+$("#btn-next").addEventListener("click", () => {
+  if (!validateStep(curStep)) return;
+  if (curStep < steps.length - 1) { showStep(curStep + 1); saveDraft(); }
+  else generatePdf();
+});
+
+/* ============================================================
+   Erstellen + Teilen
+============================================================ */
 let lastPdfBlob = null, lastPdfName = "";
 
-$("#btn-pdf").addEventListener("click", () => {
-  if (!validate()) return;
+function generatePdf() {
+  for (let i = 0; i < STEP_CHECKS.length; i++) {
+    if (!validateStep(i)) { showStep(i); return; }
+  }
   if (!$("#abschluss_zeit").value) {
     const now = new Date();
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
@@ -1057,7 +1146,7 @@ $("#btn-pdf").addEventListener("click", () => {
     : "Das PDF ist fertig. Dein Browser unterstützt kein direktes Teilen – lade es herunter und hänge es an eine E-Mail an.";
   $("#btn-share").style.display = canShare ? "" : "none";
   $("#share-dialog").showModal();
-});
+}
 
 $("#btn-share").addEventListener("click", async () => {
   try {
@@ -1078,6 +1167,9 @@ $("#btn-download").addEventListener("click", () => {
   setTimeout(() => URL.revokeObjectURL(url), 5000);
 });
 $("#btn-close-dlg").addEventListener("click", () => $("#share-dialog").close());
+
+/* Wizard starten */
+showStep(0);
 
 /* ============================================================
    Service Worker (offline)
