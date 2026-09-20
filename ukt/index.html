@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#0b5394">
+<title>Wartungsprotokoll</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root {
+  --brand: #0b5394;
+  --brand-dark: #083d6e;
+  --bg: #eef1f5;
+  --card: #ffffff;
+  --text: #1a2430;
+  --muted: #5c6b7a;
+  --border: #ccd5df;
+  --accent: #e8f0fa;
+  --danger: #b3261e;
+  --ok: #1e7d32;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.4;
+}
+header.app {
+  background: var(--brand);
+  color: #fff;
+  padding: 14px 16px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 1px 4px rgba(0,0,0,.25);
+}
+header.app h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: .3px; }
+header.app .sub { font-size: 12px; opacity: .85; margin-top: 2px; }
+main { max-width: 720px; margin: 0 auto; padding: 12px 16px 140px; }
+section.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin: 14px 0;
+  overflow: hidden;
+}
+section.card > h2 {
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  background: var(--accent);
+  color: var(--brand-dark);
+  border-bottom: 1px solid var(--border);
+}
+.card-body { padding: 12px 14px; }
+.field { margin: 0 0 12px; }
+.field:last-child { margin-bottom: 0; }
+label.lbl { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+input[type=text], input[type=date], input[type=datetime-local], input[type=email], input[type=tel], input[type=number], textarea, select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 16px;
+  background: #fff;
+  color: var(--text);
+}
+textarea { min-height: 72px; resize: vertical; }
+input:focus, textarea:focus, select:focus { outline: 2px solid var(--brand); outline-offset: 0; border-color: var(--brand); }
+.row2 { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px; }
+.row2 > * { min-width: 0; }
+input, select, textarea { min-width: 0; max-width: 100%; }
+@media (max-width: 420px) { .row2.tight-stack { grid-template-columns: 1fr; } }
+.choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.choices label.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 14px;
+  background: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+.choices input { position: absolute; opacity: 0; pointer-events: none; }
+.choices label.chip:has(input:checked) {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  font-weight: 600;
+}
+.checklist { display: grid; gap: 6px; }
+.checklist label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14.5px;
+  background: #fff;
+  cursor: pointer;
+}
+.checklist input { width: 20px; height: 20px; margin: 0; flex: none; accent-color: var(--brand); }
+.checklist label:has(input:checked) { background: var(--accent); border-color: var(--brand); }
+.subtle { font-size: 12.5px; color: var(--muted); margin: 6px 0 0; }
+button {
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+button.secondary { background: var(--accent); color: var(--brand-dark); border: 1px solid var(--border); }
+button.ghost { background: transparent; color: var(--danger); border: 1px dashed var(--border); }
+.anlage {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 12px;
+  background: #fafcfe;
+}
+.anlage h3 { margin: 0 0 8px; font-size: 14px; color: var(--brand-dark); display: flex; justify-content: space-between; align-items: center; }
+.mangel-row {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #fffdf7;
+}
+.sig-wrap { border: 1.5px dashed var(--border); border-radius: 8px; background: #fff; position: relative; }
+.sig-wrap canvas { display: block; width: 100%; height: 140px; touch-action: none; border-radius: 8px; }
+.sig-wrap .sig-hint {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #b6c1cc; font-size: 14px; pointer-events: none;
+}
+.sig-tools { margin-top: 6px; text-align: right; }
+.footer-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  display: flex;
+  gap: 10px;
+  z-index: 20;
+  max-width: 720px;
+  margin: 0 auto;
+}
+@media (min-width: 720px) { .footer-bar { left: 50%; transform: translateX(-50%); border-radius: 12px 12px 0 0; border: 1px solid var(--border); border-bottom: none; } }
+.footer-bar button.primary {
+  flex: 1;
+  background: var(--brand);
+  color: #fff;
+  padding: 14px;
+  font-size: 16px;
+}
+.footer-bar button.primary:active { background: var(--brand-dark); }
+.badge-saved {
+  font-size: 12px;
+  color: var(--ok);
+  text-align: center;
+  min-height: 15px;
+  margin-top: 4px;
+}
+dialog {
+  border: none; border-radius: 12px; padding: 20px; max-width: 420px; width: calc(100% - 40px);
+  box-shadow: 0 8px 40px rgba(0,0,0,.3);
+}
+dialog::backdrop { background: rgba(0,0,0,.4); }
+dialog h3 { margin-top: 0; }
+dialog .dlg-actions { display: flex; gap: 10px; margin-top: 16px; }
+dialog .dlg-actions button { flex: 1; }
+dialog button.primary { background: var(--brand); color: #fff; }
+.error-hint { color: var(--danger); font-size: 13px; margin-top: 4px; display: none; }
+.invalid input[type=text], .invalid input[type=date] { border-color: var(--danger); }
+.invalid .error-hint { display: block; }
+main section.step { display: none; }
+main section.step.active { display: block; }
+.wizard-progress {
+  max-width: 720px;
+  margin: 12px auto 0;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.wizard-progress .bar { flex: 1; height: 5px; background: #d7dee6; border-radius: 3px; overflow: hidden; }
+.wizard-progress .bar i { display: block; height: 100%; background: var(--brand); width: 0; transition: width .25s; }
+.footer-bar button.nav-back { padding: 14px 18px; font-size: 16px; }
+</style>
+</head>
+<body>
+<header class="app">
+  <h1>Wartungsprotokoll · Lidl Markt / Lager</h1>
+  <div class="sub">Kammerlander Umwelt- und Klimatechnik GmbH</div>
+</header>
+
+<div class="wizard-progress">
+  <span id="step-label"></span>
+  <div class="bar"><i id="step-bar"></i></div>
+</div>
+
+<main>
+  <section class="card step">
+    <h2>Auftrag</h2>
+    <div class="card-body">
+      <div class="row2">
+        <div class="field" data-req id="f-datum">
+          <label class="lbl" for="datum">Datum der Wartung *</label>
+          <input type="date" id="datum">
+          <div class="error-hint">Bitte ausfüllen</div>
+        </div>
+        <div class="field">
+          <label class="lbl" for="bestellnr">Bestellnummer</label>
+          <input type="text" id="bestellnr" autocomplete="off">
+        </div>
+      </div>
+      <div class="field">
+        <label class="lbl" for="auftragnr">Lidl-Auftragsnummer / Position</label>
+        <input type="text" id="auftragnr" autocomplete="off">
+      </div>
+      <div class="field">
+        <label class="lbl">FM-Region</label>
+        <div class="choices" id="fmregion">
+          <label class="chip"><input type="radio" name="fmregion" value="Wundschuh">Wundschuh</label>
+          <label class="chip"><input type="radio" name="fmregion" value="Laakirchen">Laakirchen</label>
+          <label class="chip"><input type="radio" name="fmregion" value="Wien">Wien</label>
+        </div>
+      </div>
+      <div class="field" data-req id="f-filiale">
+        <label class="lbl" for="filiale">Standort / Filiale / Lager *</label>
+        <input type="text" id="filiale" autocomplete="off" placeholder="z. B. Lidl Filiale 4711 St. Johann">
+        <div class="error-hint">Bitte ausfüllen</div>
+      </div>
+      <div class="field">
+        <label class="lbl" for="adresse">Adresse</label>
+        <input type="text" id="adresse" autocomplete="off">
+      </div>
+      <div class="field">
+        <label class="lbl">Wartungsart</label>
+        <div class="choices">
+          <label class="chip"><input type="radio" name="wartungsart" value="planmäßig" checked>planmäßig</label>
+          <label class="chip"><input type="radio" name="wartungsart" value="Störung">Störung</label>
+          <label class="chip"><input type="radio" name="wartungsart" value="Reparatur">Reparatur</label>
+          <label class="chip"><input type="radio" name="wartungsart" value="Prüfung">Prüfung</label>
+          <label class="chip"><input type="radio" name="wartungsart" value="sonstige">sonstige</label>
+        </div>
+        <input type="text" id="wartungsart_sonst" placeholder="sonstige: bitte angeben" style="margin-top:8px; display:none;">
+      </div>
+    </div>
+  </section>
+
+  <section class="card step">
+    <h2>Wartungsunternehmen</h2>
+    <div class="card-body">
+      <div class="field">
+        <label class="lbl" for="firma">Firma / Vertragspartner</label>
+        <input type="text" id="firma" value="Kammerlander Umwelt- und Klimatechnik GmbH">
+      </div>
+      <div class="row2">
+        <div class="field" data-req id="f-techniker">
+          <label class="lbl" for="techniker">Techniker/in *</label>
+          <input type="text" id="techniker" autocomplete="name">
+          <div class="error-hint">Bitte ausfüllen</div>
+        </div>
+        <div class="field">
+          <label class="lbl" for="kontakt">Telefon / E-Mail</label>
+          <input type="text" id="kontakt" autocomplete="off">
+        </div>
+      </div>
+      <div class="field">
+        <label class="lbl">Subunternehmen</label>
+        <div class="choices">
+          <label class="chip"><input type="radio" name="subunternehmen" value="nein" checked>nein</label>
+          <label class="chip"><input type="radio" name="subunternehmen" value="ja">ja</label>
+        </div>
+        <input type="text" id="subunternehmen_name" placeholder="Name Subunternehmen" style="margin-top:8px; display:none;">
+      </div>
+      <div class="row2 tight-stack">
+        <div class="field">
+          <label class="lbl" for="fgase_firma">F-Gase-Unternehmenszertifikat Nr.</label>
+          <input type="text" id="fgase_firma" autocomplete="off">
+        </div>
+        <div class="field">
+          <label class="lbl" for="fgase_person">F-Gase-Personenzertifikat Nr.</label>
+          <input type="text" id="fgase_person" autocomplete="off">
+        </div>
+      </div>
+      <p class="subtle">Diese Angaben werden auf dem Gerät gemerkt und beim nächsten Protokoll vorausgefüllt.</p>
+    </div>
+  </section>
+
+  <section class="card step">
+    <h2>Anlagendaten</h2>
+    <div class="card-body">
+      <div id="anlagen"></div>
+      <button type="button" class="secondary" id="btn-add-anlage">+ Weitere Anlage (max. 3)</button>
+    </div>
+  </section>
+
+  <section class="card step">
+    <h2>Durchgeführte Wartungsarbeiten</h2>
+    <div class="card-body">
+      <p class="subtle" style="margin:0 0 10px;">Nur ankreuzen, was tatsächlich gemacht wurde – nur das erscheint im Protokoll.</p>
+      <div class="checklist" id="arbeiten"></div>
+      <div class="field" style="margin-top:10px;">
+        <label class="lbl" for="arbeiten_sonst">Sonstiges</label>
+        <textarea id="arbeiten_sonst" placeholder="Weitere durchgeführte Arbeiten …"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <section class="card step">
+    <h2>Festgestellte Mängel und Empfehlungen</h2>
+    <div class="card-body">
+      <div class="field">
+        <label class="lbl">Wurden Mängel festgestellt?</label>
+        <div class="choices">
+          <label class="chip"><input type="radio" name="maengel_ja" value="nein" checked>nein</label>
+          <label class="chip"><input type="radio" name="maengel_ja" value="ja">ja</label>
+        </div>
+      </div>
+      <div id="maengel-detail" style="display:none">
+        <div id="maengel"></div>
+        <button type="button" class="secondary" id="btn-add-mangel">+ Mangel hinzufügen</button>
+      </div>
+      <div class="field" style="margin-top:14px;">
+        <label class="lbl">Anlage betriebsbereit</label>
+        <div class="choices">
+          <label class="chip"><input type="radio" name="betriebsbereit" value="ja" checked>ja</label>
+          <label class="chip"><input type="radio" name="betriebsbereit" value="eingeschränkt">eingeschränkt</label>
+          <label class="chip"><input type="radio" name="betriebsbereit" value="nein">nein</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="lbl">Sofortmaßnahme erforderlich</label>
+        <div class="choices">
+          <label class="chip"><input type="radio" name="sofort" value="nein" checked>nein</label>
+          <label class="chip"><input type="radio" name="sofort" value="ja">ja</label>
+        </div>
+        <input type="text" id="sofort_text" placeholder="Welche Sofortmaßnahme?" style="margin-top:8px; display:none;">
+      </div>
+    </div>
+  </section>
+
+  <section class="card step">
+    <h2>Ergebnis und Bemerkungen</h2>
+    <div class="card-body">
+      <div class="checklist">
+        <label><input type="checkbox" id="erg_ok"> Wartung ohne wesentliche Beanstandung abgeschlossen.</label>
+        <label><input type="checkbox" id="erg_maengel"> Mängel festgestellt.</label>
+        <label><input type="checkbox" id="erg_ausser"> Anlage außer Betrieb genommen / gesichert.</label>
+        <label><input type="checkbox" id="erg_weitere"> Weitere Arbeiten erforderlich; separate Bestellung erforderlich.</label>
+      </div>
+      <div class="field" style="margin-top:10px;">
+        <label class="lbl" for="bemerkungen">Bemerkungen</label>
+        <textarea id="bemerkungen"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <section class="card step">
+    <h2>Abschluss und Unterschriften</h2>
+    <div class="card-body">
+      <div class="field">
+        <label class="lbl" for="abschluss_zeit">Datum / Uhrzeit</label>
+        <input type="datetime-local" id="abschluss_zeit">
+      </div>
+      <div class="field">
+        <label class="lbl">Unterschrift Techniker/in</label>
+        <div class="sig-wrap" id="sig1wrap">
+          <canvas id="sig1"></canvas>
+          <div class="sig-hint">Hier unterschreiben</div>
+        </div>
+        <div class="sig-tools"><button type="button" class="ghost" data-clear="sig1">Löschen</button></div>
+      </div>
+      <div class="field">
+        <label class="lbl" for="vertreter">Auftraggebervertreter/in (Name) / digitale Rapportierung</label>
+        <input type="text" id="vertreter" autocomplete="off" placeholder="z. B. Marktleiter/in">
+      </div>
+      <div class="field">
+        <label class="lbl">Unterschrift Auftraggebervertreter/in</label>
+        <div class="sig-wrap" id="sig2wrap">
+          <canvas id="sig2"></canvas>
+          <div class="sig-hint">Hier unterschreiben</div>
+        </div>
+        <div class="sig-tools"><button type="button" class="ghost" data-clear="sig2">Löschen</button></div>
+      </div>
+      <p class="subtle">Rechnungshinweis: Rechnung an Vertragspartner in der Bestellanschrift. Bestellnummer im Rechnungskopf angeben. Eine separate Rechnung je Bestellung; bei Sammelbestellungen Lidl-Auftragsnummern exakt je Position ausweisen.</p>
+      <button type="button" class="ghost" id="btn-reset" style="margin-top:8px;">Neues Protokoll beginnen (Formular leeren)</button>
+    </div>
+  </section>
+</main>
+
+<div class="footer-bar">
+  <button type="button" class="secondary nav-back" id="btn-back">Zurück</button>
+  <div style="flex:1">
+    <button type="button" class="primary" id="btn-next" style="width:100%">Weiter</button>
+    <div class="badge-saved" id="saved-badge"></div>
+  </div>
+</div>
+
+<dialog id="share-dialog">
+  <h3>Protokoll fertig</h3>
+  <p id="share-msg">Das PDF wurde erstellt.</p>
+  <div class="dlg-actions">
+    <button type="button" class="secondary" id="btn-download">Herunterladen</button>
+    <button type="button" class="primary" id="btn-share">Teilen / Senden</button>
+  </div>
+  <div class="dlg-actions">
+    <button type="button" class="ghost" id="btn-close-dlg">Schließen</button>
+  </div>
+</dialog>
+
+<script src="vendor/jspdf.umd.min.js"></script>
+<script>
+"use strict";
+/* ============================================================
+   Konfiguration
+============================================================ */
+const FIRMA = {
+  name: "KAMMERLANDER",
+  zusatz: "Umwelt- und Klimatechnik GmbH",
+  adresse: "Speckbacherstraße 92, A-6380 St. Johann",
+  kontakt: "Telefon: 05352 / 61207-0, Fax: 05352 / 61207-22",
+  mail: "office@ukt.at   www.ukt.at",
+  fusszeile: "A-6380 St. Johann in Tirol | Speckbacherstraße 92 | ATU 374 296 08 | www.ukt.at | office@ukt.at"
+};
+
+const ARBEITEN = [
+  "Sicht-/Sicherheitsprüfung",
+  "Betriebszustand/Fehlerspeicher",
+  "Filter geprüft/gereinigt/getauscht",
+  "Wärmetauscher geprüft/gereinigt",
+  "Kondensatwanne/-ablauf",
+  "Ventilatoren/Motoren/Luftführung",
+  "Elektrische Anschlüsse/Schutzorgane/Erdung",
+  "Kältemittelleitungen/Isolierung/Absperrorgane",
+  "Drücke/Temperaturen/Überhitzung/Unterkühlung",
+  "Regelung/Sensoren/Sollwerte",
+  "Abtauung/Heizbetrieb",
+  "Korrosion/Befestigungen/Schwingungen"
+];
+
+const ANLAGENTYPEN = ["Split", "Multi-Split", "VRV wassergekühlt", "VRV luftgekühlt", "Rückkühler", "Pumpe", "sonstige"];
+const REGELUNGEN = ["Daikin Touch Manager", "R&S", "Wurm", "LichtLoidl"];
+
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+/* ============================================================
+   Checkliste rendern
+============================================================ */
+const arbeitenBox = $("#arbeiten");
+ARBEITEN.forEach((txt, i) => {
+  const label = document.createElement("label");
+  label.innerHTML = `<input type="checkbox" data-arbeit="${i}"> <span>${txt}</span>`;
+  arbeitenBox.appendChild(label);
+});
+
+/* ============================================================
+   Anlagen (bis zu 3)
+============================================================ */
+const anlagenBox = $("#anlagen");
+let anlagenCount = 0;
+
+function addAnlage(prefill) {
+  if (anlagenCount >= 3) return;
+  anlagenCount++;
+  const n = anlagenCount;
+  const div = document.createElement("div");
+  div.className = "anlage";
+  div.dataset.nr = n;
+  const typChips = ANLAGENTYPEN.map(t =>
+    `<label class="chip"><input type="radio" name="typ${n}" value="${t}">${t}</label>`).join("");
+  const regChips = REGELUNGEN.map(r =>
+    `<label class="chip"><input type="radio" name="reg${n}" value="${r}">${r}</label>`).join("");
+  div.innerHTML = `
+    <h3>Anlage ${n} ${n > 1 ? `<button type="button" class="ghost" data-remove="${n}">Entfernen</button>` : ""}</h3>
+    <div class="field"><label class="lbl">Anlagentyp</label>
+      <div class="choices">${typChips}</div>
+      <input type="text" id="typ_sonst${n}" placeholder="sonstige: bitte angeben" style="margin-top:8px; display:none;">
+    </div>
+    <div class="field"><label class="lbl">Regelung</label>
+      <div class="choices">${regChips}</div>
+    </div>
+    <div class="field"><label class="lbl">Fernzugriff</label>
+      <div class="choices">
+        <label class="chip"><input type="radio" name="fern${n}" value="ja">ja</label>
+        <label class="chip"><input type="radio" name="fern${n}" value="nein">nein</label>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label class="lbl">Hersteller</label><input type="text" id="hersteller${n}"></div>
+      <div class="field"><label class="lbl">Modell</label><input type="text" id="modell${n}"></div>
+    </div>
+    <div class="field"><label class="lbl">Seriennummer</label><input type="text" id="seriennr${n}"></div>
+    <div class="row2">
+      <div class="field"><label class="lbl">Baujahr</label><input type="number" id="baujahr${n}" inputmode="numeric" min="1980" max="2100"></div>
+      <div class="field"><label class="lbl">Nennleistung (kW)</label><input type="number" id="leistung${n}" inputmode="decimal" step="0.1"></div>
+    </div>
+    <div class="field"><label class="lbl">Standort Außengerät</label><input type="text" id="standort_ag${n}"></div>
+  `;
+  anlagenBox.appendChild(div);
+  div.addEventListener("change", (e) => {
+    if (e.target.name === `typ${n}`) {
+      $(`#typ_sonst${n}`).style.display = e.target.value === "sonstige" ? "" : "none";
+    }
+  });
+  const rm = div.querySelector("[data-remove]");
+  if (rm) rm.addEventListener("click", () => { div.remove(); anlagenCount--; renumberAnlagen(); saveDraft(); });
+  if (prefill) {
+    for (const [k, v] of Object.entries(prefill)) {
+      if (k === "typ") { const r = div.querySelector(`input[name=typ${n}][value="${v}"]`); if (r) r.checked = true; if (v === "sonstige") $(`#typ_sonst${n}`).style.display = ""; }
+      else if (k === "typ_sonst") $(`#typ_sonst${n}`).value = v;
+      else if (k === "reg") { const r = div.querySelector(`input[name=reg${n}][value="${v}"]`); if (r) r.checked = true; }
+      else if (k === "fern") { const r = div.querySelector(`input[name=fern${n}][value="${v}"]`); if (r) r.checked = true; }
+      else { const el = $(`#${k}${n}`); if (el) el.value = v; }
+    }
+  }
+  updateAddBtn();
+}
+function renumberAnlagen() {
+  $$("#anlagen .anlage").forEach((div, i) => {
+    div.querySelector("h3").childNodes[0].textContent = `Anlage ${i + 1} `;
+  });
+  updateAddBtn();
+}
+function updateAddBtn() {
+  $("#btn-add-anlage").style.display = anlagenCount >= 3 ? "none" : "";
+}
+$("#btn-add-anlage").addEventListener("click", () => { addAnlage(); saveDraft(); });
+
+/* ============================================================
+   Mängel (dynamische Zeilen)
+============================================================ */
+const maengelBox = $("#maengel");
+function addMangel(prefill) {
+  const div = document.createElement("div");
+  div.className = "mangel-row";
+  div.innerHTML = `
+    <div class="field"><label class="lbl">Mangel / Feststellung</label><input type="text" class="m-text"></div>
+    <div class="row2">
+      <div class="field"><label class="lbl">Priorität</label>
+        <select class="m-prio">
+          <option value="">–</option><option>hoch</option><option>mittel</option><option>niedrig</option>
+        </select>
+      </div>
+      <div class="field"><label class="lbl">Maßnahme / Frist</label><input type="text" class="m-massnahme"></div>
+    </div>
+    <div style="text-align:right"><button type="button" class="ghost m-remove">Entfernen</button></div>
+  `;
+  maengelBox.appendChild(div);
+  div.querySelector(".m-remove").addEventListener("click", () => { div.remove(); saveDraft(); });
+  if (prefill) {
+    div.querySelector(".m-text").value = prefill.text || "";
+    div.querySelector(".m-prio").value = prefill.prio || "";
+    div.querySelector(".m-massnahme").value = prefill.massnahme || "";
+  }
+}
+$("#btn-add-mangel").addEventListener("click", () => addMangel());
+
+/* ============================================================
+   Bedingte Felder ein-/ausblenden
+============================================================ */
+document.addEventListener("change", (e) => {
+  if (e.target.name === "wartungsart") $("#wartungsart_sonst").style.display = e.target.value === "sonstige" ? "" : "none";
+  if (e.target.name === "subunternehmen") $("#subunternehmen_name").style.display = e.target.value === "ja" ? "" : "none";
+  if (e.target.name === "sofort") $("#sofort_text").style.display = e.target.value === "ja" ? "" : "none";
+  if (e.target.name === "maengel_ja") {
+    const ja = e.target.value === "ja";
+    $("#maengel-detail").style.display = ja ? "" : "none";
+    if (ja && $$("#maengel .mangel-row").length === 0) addMangel();
+    // Ergebnis-Vorbelegung passend zur Antwort
+    $("#erg_maengel").checked = ja;
+    $("#erg_ok").checked = !ja;
+  }
+});
+
+/* ============================================================
+   Unterschriften-Pads
+============================================================ */
+function makeSigPad(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  const wrap = canvas.parentElement;
+  const hint = wrap.querySelector(".sig-hint");
+  const ctx = canvas.getContext("2d");
+  let drawing = false, hasInk = false;
+
+  function resize() {
+    const data = hasInk ? canvas.toDataURL() : null;
+    const ratio = window.devicePixelRatio || 1;
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "#1a2430";
+    if (data) { const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0, canvas.offsetWidth, canvas.offsetHeight); img.src = data; }
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  function pos(e) {
+    const r = canvas.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  }
+  canvas.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    canvas.setPointerCapture(e.pointerId);
+    drawing = true; hasInk = true;
+    hint.style.display = "none";
+    const p = pos(e);
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+    ctx.lineTo(p.x + 0.1, p.y + 0.1);
+    ctx.stroke();
+  });
+  canvas.addEventListener("pointermove", (e) => {
+    if (!drawing) return;
+    e.preventDefault();
+    const p = pos(e);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+  });
+  const stop = () => { drawing = false; };
+  canvas.addEventListener("pointerup", stop);
+  canvas.addEventListener("pointercancel", stop);
+
+  return {
+    clear() {
+      ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+      hasInk = false;
+      hint.style.display = "";
+    },
+    isEmpty: () => !hasInk,
+    dataURL: () => hasInk ? canvas.toDataURL("image/png") : null,
+    resize // nach Einblenden des Schritts aufrufen (Canvas hat sonst Breite 0)
+  };
+}
+const sigPads = { sig1: makeSigPad("sig1"), sig2: makeSigPad("sig2") };
+$$("[data-clear]").forEach(btn => btn.addEventListener("click", () => sigPads[btn.dataset.clear].clear()));
+
+/* ============================================================
+   Formulardaten sammeln
+============================================================ */
+function radioVal(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : "";
+}
+function collect() {
+  const anlagen = $$("#anlagen .anlage").map((div, i) => {
+    const n = div.dataset.nr;
+    return {
+      typ: radioVal(`typ${n}`),
+      typ_sonst: $(`#typ_sonst${n}`).value.trim(),
+      reg: radioVal(`reg${n}`),
+      fern: radioVal(`fern${n}`),
+      hersteller: $(`#hersteller${n}`).value.trim(),
+      modell: $(`#modell${n}`).value.trim(),
+      seriennr: $(`#seriennr${n}`).value.trim(),
+      baujahr: $(`#baujahr${n}`).value.trim(),
+      leistung: $(`#leistung${n}`).value.trim(),
+      standort_ag: $(`#standort_ag${n}`).value.trim()
+    };
+  });
+  const maengelJa = radioVal("maengel_ja") === "ja";
+  const maengel = !maengelJa ? [] : $$("#maengel .mangel-row").map(div => ({
+    text: div.querySelector(".m-text").value.trim(),
+    prio: div.querySelector(".m-prio").value,
+    massnahme: div.querySelector(".m-massnahme").value.trim()
+  })).filter(m => m.text || m.massnahme);
+  return {
+    datum: $("#datum").value,
+    bestellnr: $("#bestellnr").value.trim(),
+    auftragnr: $("#auftragnr").value.trim(),
+    fmregion: radioVal("fmregion"),
+    filiale: $("#filiale").value.trim(),
+    adresse: $("#adresse").value.trim(),
+    wartungsart: radioVal("wartungsart"),
+    wartungsart_sonst: $("#wartungsart_sonst").value.trim(),
+    firma: $("#firma").value.trim(),
+    techniker: $("#techniker").value.trim(),
+    kontakt: $("#kontakt").value.trim(),
+    subunternehmen: radioVal("subunternehmen"),
+    subunternehmen_name: $("#subunternehmen_name").value.trim(),
+    fgase_firma: $("#fgase_firma").value.trim(),
+    fgase_person: $("#fgase_person").value.trim(),
+    anlagen,
+    arbeiten: $$("#arbeiten input").map(cb => cb.checked),
+    arbeiten_sonst: $("#arbeiten_sonst").value.trim(),
+    maengel_ja: radioVal("maengel_ja"),
+    maengel,
+    betriebsbereit: radioVal("betriebsbereit"),
+    sofort: radioVal("sofort"),
+    sofort_text: $("#sofort_text").value.trim(),
+    erg_ok: $("#erg_ok").checked,
+    erg_maengel: $("#erg_maengel").checked,
+    erg_ausser: $("#erg_ausser").checked,
+    erg_weitere: $("#erg_weitere").checked,
+    bemerkungen: $("#bemerkungen").value.trim(),
+    abschluss_zeit: $("#abschluss_zeit").value,
+    vertreter: $("#vertreter").value.trim()
+  };
+}
+
+/* ============================================================
+   Entwurf speichern / laden (localStorage)
+============================================================ */
+const DRAFT_KEY = "ukt-protokoll-draft";
+const STAMM_KEY = "ukt-techniker-stammdaten";
+let saveTimer = null;
+
+function saveDraft() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      const d = collect();
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(d));
+      localStorage.setItem(STAMM_KEY, JSON.stringify({
+        firma: d.firma, techniker: d.techniker, kontakt: d.kontakt,
+        fgase_firma: d.fgase_firma, fgase_person: d.fgase_person
+      }));
+      const b = $("#saved-badge");
+      b.textContent = "Entwurf gespeichert ✓";
+      setTimeout(() => { b.textContent = ""; }, 1500);
+    } catch (_) { /* privater Modus o. Ä. */ }
+  }, 400);
+}
+document.addEventListener("input", saveDraft);
+document.addEventListener("change", saveDraft);
+
+function setRadio(name, value) {
+  if (!value) return;
+  const el = document.querySelector(`input[name="${name}"][value="${value}"]`);
+  if (el) { el.checked = true; el.dispatchEvent(new Event("change", { bubbles: true })); }
+}
+function loadDraft() {
+  let d = null;
+  try { d = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); } catch (_) {}
+  if (!d) {
+    let s = null;
+    try { s = JSON.parse(localStorage.getItem(STAMM_KEY) || "null"); } catch (_) {}
+    if (s) {
+      if (s.firma) $("#firma").value = s.firma;
+      $("#techniker").value = s.techniker || "";
+      $("#kontakt").value = s.kontakt || "";
+      $("#fgase_firma").value = s.fgase_firma || "";
+      $("#fgase_person").value = s.fgase_person || "";
+    }
+    addAnlage();
+    $("#erg_ok").checked = true;
+    return;
+  }
+  $("#datum").value = d.datum || "";
+  $("#bestellnr").value = d.bestellnr || "";
+  $("#auftragnr").value = d.auftragnr || "";
+  setRadio("fmregion", d.fmregion);
+  $("#filiale").value = d.filiale || "";
+  $("#adresse").value = d.adresse || "";
+  setRadio("wartungsart", d.wartungsart);
+  $("#wartungsart_sonst").value = d.wartungsart_sonst || "";
+  if (d.firma) $("#firma").value = d.firma;
+  $("#techniker").value = d.techniker || "";
+  $("#kontakt").value = d.kontakt || "";
+  setRadio("subunternehmen", d.subunternehmen);
+  $("#subunternehmen_name").value = d.subunternehmen_name || "";
+  $("#fgase_firma").value = d.fgase_firma || "";
+  $("#fgase_person").value = d.fgase_person || "";
+  (d.anlagen && d.anlagen.length ? d.anlagen : [null]).forEach(a => addAnlage(a || undefined));
+  (d.arbeiten || []).forEach((v, i) => { const cb = document.querySelector(`[data-arbeit="${i}"]`); if (cb) cb.checked = v; });
+  $("#arbeiten_sonst").value = d.arbeiten_sonst || "";
+  (d.maengel || []).forEach(m => addMangel(m));
+  setRadio("maengel_ja", d.maengel_ja);
+  setRadio("betriebsbereit", d.betriebsbereit);
+  setRadio("sofort", d.sofort);
+  $("#sofort_text").value = d.sofort_text || "";
+  $("#erg_ok").checked = !!d.erg_ok;
+  $("#erg_maengel").checked = !!d.erg_maengel;
+  $("#erg_ausser").checked = !!d.erg_ausser;
+  $("#erg_weitere").checked = !!d.erg_weitere;
+  $("#bemerkungen").value = d.bemerkungen || "";
+  $("#abschluss_zeit").value = d.abschluss_zeit || "";
+  $("#vertreter").value = d.vertreter || "";
+}
+
+$("#btn-reset").addEventListener("click", () => {
+  if (!confirm("Formular wirklich leeren? Techniker-Stammdaten bleiben erhalten.")) return;
+  try { localStorage.removeItem(DRAFT_KEY); } catch (_) {}
+  location.reload();
+});
+
+/* ============================================================
+   Vorbelegungen
+============================================================ */
+loadDraft();
+if (!$("#datum").value) {
+  const now = new Date();
+  $("#datum").value = now.toISOString().slice(0, 10);
+}
+
+/* ============================================================
+   PDF-Erzeugung
+============================================================ */
+function fmtDate(iso) {
+  if (!iso) return "";
+  const [y, m, d] = iso.split("-");
+  return `${d}.${m}.${y}`;
+}
+function fmtDateTime(iso) {
+  if (!iso) return "";
+  const [date, time] = iso.split("T");
+  return `${fmtDate(date)} ${time || ""}`.trim();
+}
+
+function buildPdf(d) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: "mm", format: "a4" });
+  const W = 210, ML = 14, MR = 14, CW = W - ML - MR;
+  let y = 14;
+
+  function pageBreak(h) {
+    if (y + h > 280) { footer(); doc.addPage(); y = 14; }
+  }
+  function footer() {
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(7);
+    doc.setTextColor(120);
+    doc.text(FIRMA.fusszeile, W / 2, 291, { align: "center" });
+    doc.setTextColor(0);
+  }
+  function sectionHead(t) {
+    pageBreak(12);
+    doc.setFillColor(225, 233, 242);
+    doc.rect(ML, y, CW, 6.5, "F");
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9.5);
+    doc.setTextColor(11, 61, 110);
+    doc.text(t.toUpperCase(), ML + 2, y + 4.6);
+    doc.setTextColor(0);
+    y += 9.5;
+  }
+  function kv(label, value, x, labelW, colW) {
+    doc.setFont("helvetica", "bold"); doc.setFontSize(8.5);
+    doc.text(label, x, y);
+    doc.setFont("helvetica", "normal");
+    const lines = doc.splitTextToSize(value || "–", colW - labelW - 2);
+    doc.text(lines, x + labelW, y);
+    return lines.length;
+  }
+  function kvRow(pairs) {
+    // pairs: [[label, value], [label, value]?]
+    pageBreak(6);
+    const colW = pairs.length === 2 ? CW / 2 - 2 : CW;
+    let maxLines = 1;
+    pairs.forEach((p, i) => {
+      const x = ML + i * (CW / 2 + 2);
+      const n = kv(p[0], p[1], x, p[2] || 40, colW);
+      maxLines = Math.max(maxLines, n);
+    });
+    y += 4.5 * maxLines + 1.2;
+  }
+  function checkbox(x, yy, checked) {
+    doc.setDrawColor(60);
+    doc.rect(x, yy - 2.8, 3.2, 3.2);
+    if (checked) {
+      doc.setFont("zapfdingbats", "normal");
+      doc.setFontSize(8);
+      doc.text("4", x + 0.35, yy); // Häkchen in ZapfDingbats
+      doc.setFont("helvetica", "normal");
+    }
+  }
+  function textBlock(label, value) {
+    if (!value) return;
+    pageBreak(10);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(8.5);
+    doc.text(label, ML, y);
+    doc.setFont("helvetica", "normal");
+    const lines = doc.splitTextToSize(value, CW - 30);
+    doc.text(lines, ML + 30, y);
+    y += 4.5 * lines.length + 1.2;
+  }
+
+  /* --- Kopf --- */
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(15);
+  doc.setTextColor(11, 61, 110);
+  doc.text(FIRMA.name, ML, y + 2);
+  doc.setFontSize(9);
+  doc.text(FIRMA.zusatz, ML, y + 7);
+  doc.setTextColor(90);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(7.5);
+  doc.text([FIRMA.adresse, FIRMA.kontakt, FIRMA.mail], W - MR, y, { align: "right" });
+  doc.setTextColor(0);
+  y += 12;
+  doc.setDrawColor(11, 61, 110);
+  doc.setLineWidth(0.5);
+  doc.line(ML, y, W - MR, y);
+  y += 6;
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(13);
+  doc.text("WARTUNGSPROTOKOLL – LIDL MARKT / LAGER", ML, y);
+  y += 7;
+
+  /* --- Auftrag --- */
+  sectionHead("Auftrag");
+  kvRow([["Datum der Wartung:", fmtDate(d.datum), 34], ["Bestellnummer:", d.bestellnr, 30]]);
+  kvRow([["Lidl-Auftragsnr. / Pos.:", d.auftragnr, 38], ["FM-Region:", d.fmregion, 30]]);
+  kvRow([["Standort / Filiale / Lager:", d.filiale, 42]]);
+  kvRow([["Adresse:", d.adresse, 20]]);
+  const wa = d.wartungsart === "sonstige" && d.wartungsart_sonst ? `sonstige: ${d.wartungsart_sonst}` : d.wartungsart;
+  kvRow([["Wartungsart:", wa, 26]]);
+
+  /* --- Wartungsunternehmen --- */
+  sectionHead("Wartungsunternehmen");
+  kvRow([["Firma / Vertragspartner:", d.firma, 40], ["Techniker/in:", d.techniker, 26]]);
+  const sub = d.subunternehmen === "ja" ? `ja: ${d.subunternehmen_name}` : "nein";
+  kvRow([["Telefon / E-Mail:", d.kontakt, 32], ["Subunternehmen:", sub, 32]]);
+  kvRow([["F-Gase-Unternehmenszert.:", d.fgase_firma, 44], ["F-Gase-Personenzert.:", d.fgase_person, 40]]);
+
+  /* --- Anlagendaten --- */
+  sectionHead("Anlagendaten");
+  const anlagenMitDaten = d.anlagen.filter(a => a.typ || a.hersteller || a.modell || a.seriennr || a.standort_ag);
+  if (anlagenMitDaten.length === 0) {
+    pageBreak(6);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(8.5);
+    doc.text("Keine Anlagendaten erfasst.", ML, y);
+    y += 5.5;
+  }
+  d.anlagen.forEach((a, i) => {
+    const hasData = a.typ || a.hersteller || a.modell || a.seriennr || a.standort_ag;
+    if (!hasData) return;
+    pageBreak(20);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.text(`Anlage ${i + 1}`, ML, y);
+    y += 4.5;
+    const typ = a.typ === "sonstige" && a.typ_sonst ? `sonstige: ${a.typ_sonst}` : a.typ;
+    kvRow([["Anlagentyp:", typ, 24], ["Regelung:", a.reg + (a.fern ? `  (Fernzugriff: ${a.fern})` : ""), 22]]);
+    kvRow([["Hersteller:", a.hersteller, 24], ["Modell:", a.modell, 18]]);
+    kvRow([["Seriennummer:", a.seriennr, 30], ["Baujahr / Leistung:", [a.baujahr, a.leistung ? a.leistung + " kW" : ""].filter(Boolean).join(" / "), 34]]);
+    kvRow([["Standort Außengerät:", a.standort_ag, 38]]);
+    y += 1;
+  });
+
+  /* --- Wartungsarbeiten: nur die tatsächlich durchgeführten --- */
+  sectionHead("Durchgeführte Wartungsarbeiten");
+  const done = ARBEITEN.filter((_, i) => d.arbeiten[i]);
+  if (done.length === 0 && !d.arbeiten_sonst) {
+    pageBreak(6);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(8.5);
+    doc.text("Keine Wartungsarbeiten erfasst.", ML, y);
+    y += 5.5;
+  } else {
+    doc.setFontSize(8);
+    const colWidth = CW / 2;
+    done.forEach((txt, i) => {
+      const col = i % 2;
+      if (col === 0) pageBreak(5);
+      const x = ML + col * colWidth;
+      checkbox(x, y, true);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.text(doc.splitTextToSize(txt, colWidth - 8), x + 5, y);
+      if (col === 1 || i === done.length - 1) y += 5;
+    });
+    y += 1;
+    textBlock("Sonstiges:", d.arbeiten_sonst);
+  }
+
+  /* --- Mängel --- */
+  sectionHead("Festgestellte Mängel und Empfehlungen");
+  if (d.maengel.length === 0) {
+    pageBreak(6);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(8.5);
+    doc.text("Keine Mängel festgestellt.", ML, y);
+    y += 5.5;
+  } else {
+    pageBreak(6);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(7.5);
+    doc.setTextColor(90);
+    doc.text("Mangel / Feststellung", ML + 6, y);
+    doc.text("Priorität", ML + CW - 62, y);
+    doc.text("Maßnahme / Frist", ML + CW - 46, y);
+    doc.setTextColor(0);
+    y += 4;
+    d.maengel.forEach((m, i) => {
+      pageBreak(10);
+      doc.setFont("helvetica", "bold"); doc.setFontSize(8.5);
+      doc.text(`${i + 1}.`, ML, y);
+      doc.setFont("helvetica", "normal");
+      const txt = doc.splitTextToSize(m.text || "–", CW - 72);
+      doc.text(txt, ML + 6, y);
+      doc.text(m.prio || "–", ML + CW - 62, y);
+      const mn = doc.splitTextToSize(m.massnahme || "–", 46);
+      doc.text(mn, ML + CW - 46, y);
+      y += 4.5 * Math.max(txt.length, mn.length) + 1.5;
+    });
+  }
+  const bb = d.betriebsbereit;
+  const so = d.sofort === "ja" ? `ja: ${d.sofort_text}` : "nein";
+  kvRow([["Anlage betriebsbereit:", bb, 40], ["Sofortmaßnahme:", so, 32]]);
+
+  /* --- Ergebnis --- */
+  sectionHead("Ergebnis und Bemerkungen");
+  const ergItems = [
+    [d.erg_ok, "Wartung ohne wesentliche Beanstandung abgeschlossen."],
+    [d.erg_maengel, "Mängel festgestellt."],
+    [d.erg_ausser, "Anlage außer Betrieb genommen / gesichert."],
+    [d.erg_weitere, "Weitere Arbeiten erforderlich; separate Bestellung erforderlich."]
+  ];
+  ergItems.forEach(([checked, txt]) => {
+    pageBreak(5);
+    checkbox(ML, y, checked);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(8.5);
+    doc.text(txt, ML + 5, y);
+    y += 5;
+  });
+  y += 1;
+  textBlock("Bemerkungen:", d.bemerkungen);
+
+  /* --- Unterschriften --- */
+  pageBreak(48);
+  y += 2;
+  sectionHead("Abschluss");
+  kvRow([["Name Techniker/in:", d.techniker, 36], ["Datum / Uhrzeit:", fmtDateTime(d.abschluss_zeit), 30]]);
+  kvRow([["Auftraggebervertreter/in:", d.vertreter, 44]]);
+  pageBreak(34);
+  const sigW = 62, sigH = 22;
+  const sig1 = sigPads.sig1.dataURL();
+  const sig2 = sigPads.sig2.dataURL();
+  const x2 = ML + CW / 2 + 2;
+  if (sig1) doc.addImage(sig1, "PNG", ML, y, sigW, sigH);
+  if (sig2) doc.addImage(sig2, "PNG", x2, y, sigW, sigH);
+  y += sigH + 1.5;
+  doc.setDrawColor(60);
+  doc.setLineWidth(0.2);
+  doc.line(ML, y, ML + sigW + 8, y);
+  doc.line(x2, y, x2 + sigW + 8, y);
+  y += 3.5;
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(7.5);
+  doc.setTextColor(90);
+  doc.text("Unterschrift Techniker/in", ML, y);
+  doc.text("Unterschrift Auftraggebervertreter/in", x2, y);
+  doc.setTextColor(0);
+  y += 7;
+
+  /* --- Rechnungshinweis --- */
+  pageBreak(16);
+  doc.setFont("helvetica", "bold"); doc.setFontSize(7.5);
+  doc.text("RECHNUNGSHINWEIS", ML, y);
+  y += 3.5;
+  doc.setFont("helvetica", "normal"); doc.setFontSize(6.8);
+  doc.setTextColor(90);
+  const hinweis = "Rechnung an Vertragspartner in der Bestellanschrift. Bestellnummer im Rechnungskopf angeben. Grundsätzlich eine separate Rechnung je Bestellung; bei Sammelbestellungen Lidl-Auftragsnummern exakt je Position ausweisen. Kältemittelarbeiten und Dichtheitsprüfungen nur durch befugte bzw. zertifizierte Personen und Unternehmen. Dieses Formular ersetzt keine gesetzlich, vertraglich oder herstellerseitig vorgeschriebenen Nachweise.";
+  const hl = doc.splitTextToSize(hinweis, CW);
+  doc.text(hl, ML, y);
+  doc.setTextColor(0);
+
+  footer();
+  return doc;
+}
+
+/* ============================================================
+   Wizard: ein Schritt nach dem anderen
+============================================================ */
+const steps = $$("main section.step");
+const STEP_CHECKS = [
+  [["#f-datum", "#datum"], ["#f-filiale", "#filiale"]],  // Auftrag
+  [["#f-techniker", "#techniker"]]                        // Wartungsunternehmen
+];
+let curStep = 0;
+
+function validateStep(i) {
+  let ok = true;
+  (STEP_CHECKS[i] || []).forEach(([wrap, input]) => {
+    const empty = !$(input).value.trim();
+    $(wrap).classList.toggle("invalid", empty);
+    if (empty) ok = false;
+  });
+  if (!ok) document.querySelector(".invalid").scrollIntoView({ behavior: "smooth", block: "center" });
+  return ok;
+}
+
+function showStep(i) {
+  curStep = Math.max(0, Math.min(i, steps.length - 1));
+  steps.forEach((s, j) => s.classList.toggle("active", j === curStep));
+  const last = curStep === steps.length - 1;
+  $("#btn-next").textContent = last ? "PDF erstellen & senden" : "Weiter";
+  $("#btn-back").style.visibility = curStep === 0 ? "hidden" : "visible";
+  $("#step-label").textContent = `Schritt ${curStep + 1} von ${steps.length}`;
+  $("#step-bar").style.width = `${((curStep + 1) / steps.length) * 100}%`;
+  if (last) { sigPads.sig1.resize(); sigPads.sig2.resize(); }
+  window.scrollTo({ top: 0 });
+}
+
+$("#btn-back").addEventListener("click", () => showStep(curStep - 1));
+$("#btn-next").addEventListener("click", () => {
+  if (!validateStep(curStep)) return;
+  if (curStep < steps.length - 1) { showStep(curStep + 1); saveDraft(); }
+  else generatePdf();
+});
+
+/* ============================================================
+   Erstellen + Teilen
+============================================================ */
+let lastPdfBlob = null, lastPdfName = "";
+
+function generatePdf() {
+  for (let i = 0; i < STEP_CHECKS.length; i++) {
+    if (!validateStep(i)) { showStep(i); return; }
+  }
+  if (!$("#abschluss_zeit").value) {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    $("#abschluss_zeit").value = now.toISOString().slice(0, 16);
+  }
+  const d = collect();
+  const doc = buildPdf(d);
+  const safe = (s) => (s || "").replace(/[^\wäöüÄÖÜß-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40);
+  lastPdfName = `Wartungsprotokoll_${safe(d.filiale) || "Lidl"}_${d.datum || ""}.pdf`;
+  lastPdfBlob = doc.output("blob");
+  const canShare = navigator.canShare && navigator.canShare({ files: [new File([lastPdfBlob], lastPdfName, { type: "application/pdf" })] });
+  $("#share-msg").textContent = canShare
+    ? "Das PDF ist fertig. Mit „Teilen / Senden“ kannst du es direkt per E-Mail, WhatsApp usw. verschicken."
+    : "Das PDF ist fertig. Dein Browser unterstützt kein direktes Teilen – lade es herunter und hänge es an eine E-Mail an.";
+  $("#btn-share").style.display = canShare ? "" : "none";
+  $("#share-dialog").showModal();
+}
+
+$("#btn-share").addEventListener("click", async () => {
+  try {
+    const file = new File([lastPdfBlob], lastPdfName, { type: "application/pdf" });
+    await navigator.share({ files: [file], title: lastPdfName });
+  } catch (err) {
+    if (err && err.name !== "AbortError") alert("Teilen nicht möglich: " + err.message);
+  }
+});
+$("#btn-download").addEventListener("click", () => {
+  const url = URL.createObjectURL(lastPdfBlob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = lastPdfName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+});
+$("#btn-close-dlg").addEventListener("click", () => $("#share-dialog").close());
+
+/* Wizard starten */
+showStep(0);
+
+/* ============================================================
+   Service Worker (offline)
+============================================================ */
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+</script>
+</body>
+</html>
