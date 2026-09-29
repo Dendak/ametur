@@ -623,11 +623,25 @@
       <h2>Gebet &amp; Spiritualit&auml;t</h2>
       <div class="card c-blue">
         <ul class="events">
-          <li data-date="2026-09-28" data-end="2026-10-02" data-time="9.00 &amp; 11.55 Uhr &middot; bis Fr., 2.10.26">
+          <li id="impulse-woche">
             <p class="when">Mo., 28.9. &ndash; Fr., 2.10.26</p>
             <h3>Spirituelle Impulse im Schulalltag</h3>
             <p class="details">&bdquo;Momente der Dankbarkeit und des Staunens&ldquo;</p>
             <p class="details">9.00 Uhr &amp; 11.55 Uhr</p>
+            <!-- Jeder Impuls ist ein eigener Termin in "Naechste Termine";
+                 der Titel bleibt bis zum Abspielen verborgen. -->
+            <div class="impuls-termine" hidden>
+              <span data-date="2026-09-28" data-at="09:00" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-09-28" data-at="11:55" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-09-29" data-at="09:00" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-09-29" data-at="11:55" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-09-30" data-at="09:00" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-09-30" data-at="11:55" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-10-01" data-at="09:00" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-10-01" data-at="11:55" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-10-02" data-at="09:00" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-10-02" data-at="11:55" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
+            </div>
             <!-- Jeder Impuls wird erst eine Minute nach seiner Abspielzeit
                  sichtbar; siehe data-ab und das Skript am Seitenende. -->
             <div class="impulse" hidden>
@@ -850,11 +864,12 @@ function anmeldeButton(url, titel) {
 
 // Baut die Liste "Naechste Termine" aus allen Eintraegen mit data-date.
 (function () {
-  var MAX = 5;
+  var MAX = 6;
   var box = document.getElementById("upcoming");
   var list = document.getElementById("next-list");
   if (!box || !list) return;
 
+  var jetzt = new Date();
   var heute = new Date();
   heute.setHours(0, 0, 0, 0);
 
@@ -873,6 +888,13 @@ function anmeldeButton(url, titel) {
     // Mehrtaegige Veranstaltungen bleiben bis zu ihrem data-end stehen.
     var ende = datumAus(el.getAttribute("data-end")) || datum;
     if (ende < heute) continue;
+    // Mit data-at ("09:00") faellt der Termin nach seiner Uhrzeit heraus.
+    var uhrzeit = el.getAttribute("data-at");
+    if (uhrzeit && datum.getTime() === heute.getTime()) {
+      var hm = uhrzeit.split(":");
+      var beginn = new Date(datum.getFullYear(), datum.getMonth(), datum.getDate(), +hm[0], +hm[1]);
+      if (jetzt > beginn) continue;
+    }
     // Laeuft bereits: nach vorne reihen, damit sie nicht hinter
     // spaetere Einzeltermine rutscht.
     var sortierDatum = datum < heute ? heute : datum;
@@ -883,7 +905,13 @@ function anmeldeButton(url, titel) {
       titel = h3 ? h3.innerHTML : el.innerHTML;
     }
     var sektion = el.closest("section.block");
-    if (!el.id) el.id = "t" + i;
+    // data-ziel verlinkt auf einen anderen Eintrag, z. B. wenn der Termin
+    // selbst nur unsichtbare Zusatzinfo im Kalender ist.
+    var ziel = el.getAttribute("data-ziel");
+    if (!ziel) {
+      if (!el.id) el.id = "t" + i;
+      ziel = el.id;
+    }
 
     termine.push({
       datum: datum,
@@ -892,7 +920,7 @@ function anmeldeButton(url, titel) {
       titel: titel,
       bereich: sektion ? sektion.querySelector("h2").textContent.trim() : "",
       zeit: el.getAttribute("data-time") || "",
-      ziel: el.id,
+      ziel: ziel,
       anmeldung: el.getAttribute("data-form")
     });
   }
