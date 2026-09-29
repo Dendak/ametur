@@ -1,0 +1,15 @@
+{
+  "name": "pater-chatbot-backend",
+  "private": true,
+  "version": "0.1.0",
+  "description": "RAG-Backend für den Pater-Chatbot (Prototyp)",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build-index": "node ../knowledge-base/build-index.mjs",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.65.0"
+  }
+}
