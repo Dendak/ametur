@@ -574,12 +574,12 @@
       <h2>Besondere Angebote</h2>
       <div class="card c-cream">
         <ul class="events">
-          <li data-date="2027-01-18" data-time="bis Fr., 22.1.27">
+          <li data-date="2027-01-18" data-end="2027-01-22" data-time="bis Fr., 22.1.27">
             <p class="when">Mo., 18.1. &ndash; Fr., 22.1.27</p>
             <h3>Internationale MSC besuchen die Klassen</h3>
             <p class="details">und berichten aus Leben und Mission</p>
           </li>
-          <li data-date="2027-03-25" data-time="bis So., 28.3.27">
+          <li data-date="2027-03-25" data-end="2027-03-28" data-time="bis So., 28.3.27">
             <p class="when">Do., 25.3. &ndash; So., 28.3.27</p>
             <h3>Kartage bewusst erleben und Liturgie mitgestalten</h3>
             <p class="details">f&uuml;r unsere Ministrantengruppe</p>
@@ -623,7 +623,7 @@
       <h2>Gebet &amp; Spiritualit&auml;t</h2>
       <div class="card c-blue">
         <ul class="events">
-          <li data-date="2026-09-28" data-time="9.00 &amp; 12.00 Uhr &middot; bis Fr., 2.10.26">
+          <li data-date="2026-09-28" data-end="2026-10-02" data-time="9.00 &amp; 12.00 Uhr &middot; bis Fr., 2.10.26">
             <p class="when">Mo., 28.9. &ndash; Fr., 2.10.26</p>
             <h3>Spirituelle Impulse im Schulalltag</h3>
             <p class="details">&bdquo;Momente der Dankbarkeit und des Staunens&ldquo;</p>
@@ -751,7 +751,7 @@
             <p class="details">07.30&ndash;07.45 Uhr</p>
             <p class="details">Oberstufe &middot; Josefskapelle</p>
           </li>
-          <li data-form="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=8aFl7rnUtEejaUJ8o_YRjt3y44fzZ1dJon8TFx2yHmVUNlJJT1Y3MzJWQVdLR0dMV0E2MFZWSTE4NS4u" data-date="2027-04-04" data-time="7.00 &amp; 18.30 Uhr &middot; bis So., 11.4.27">
+          <li data-form="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=8aFl7rnUtEejaUJ8o_YRjt3y44fzZ1dJon8TFx2yHmVUNlJJT1Y3MzJWQVdLR0dMV0E2MFZWSTE4NS4u" data-date="2027-04-04" data-end="2027-04-11" data-time="7.00 &amp; 18.30 Uhr &middot; bis So., 11.4.27">
             <p class="when">So., 4.4. &ndash; So., 11.4.27</p>
             <h3>M&ouml;glichkeit, das Stundengebet mit den Missionaren mitzubeten</h3>
             <p class="details">7.00 Uhr (So. 7.30 Uhr) &amp; 18.30 Uhr (So. 17.30 Uhr)</p>
@@ -858,14 +858,24 @@ function anmeldeButton(url, titel) {
   var heute = new Date();
   heute.setHours(0, 0, 0, 0);
 
+  function datumAus(wert) {
+    if (!wert) return null;
+    var teile = wert.split("-");
+    return new Date(+teile[0], +teile[1] - 1, +teile[2]);
+  }
+
   var termine = [];
   var eintraege = document.querySelectorAll("[data-date]");
 
   for (var i = 0; i < eintraege.length; i++) {
     var el = eintraege[i];
-    var teile = el.getAttribute("data-date").split("-");
-    var datum = new Date(+teile[0], +teile[1] - 1, +teile[2]);
-    if (datum < heute) continue;
+    var datum = datumAus(el.getAttribute("data-date"));
+    // Mehrtaegige Veranstaltungen bleiben bis zu ihrem data-end stehen.
+    var ende = datumAus(el.getAttribute("data-end")) || datum;
+    if (ende < heute) continue;
+    // Laeuft bereits: nach vorne reihen, damit sie nicht hinter
+    // spaetere Einzeltermine rutscht.
+    var sortierDatum = datum < heute ? heute : datum;
 
     var titel = el.getAttribute("data-title");
     if (!titel) {
@@ -877,6 +887,8 @@ function anmeldeButton(url, titel) {
 
     termine.push({
       datum: datum,
+      ende: ende,
+      sortierDatum: sortierDatum,
       titel: titel,
       bereich: sektion ? sektion.querySelector("h2").textContent.trim() : "",
       zeit: el.getAttribute("data-time") || "",
@@ -887,7 +899,7 @@ function anmeldeButton(url, titel) {
 
   if (!termine.length) return;
 
-  termine.sort(function (a, b) { return a.datum - b.datum; });
+  termine.sort(function (a, b) { return a.sortierDatum - b.sortierDatum || a.datum - b.datum; });
   termine = termine.slice(0, MAX);
 
   var fmt;
@@ -904,7 +916,8 @@ function anmeldeButton(url, titel) {
       : t.datum.getDate() + "." + (t.datum.getMonth() + 1) + ".";
     var meta = [t.bereich, t.zeit].filter(Boolean).join(" &middot; ");
 
-    var istHeute = t.datum.getTime() === heute.getTime();
+    // Faellt heute an: entweder Einzeltermin heute oder laufende Veranstaltung.
+    var istHeute = t.datum <= heute && heute <= t.ende;
     if (istHeute) datumText = '<span class="n-today">Heute</span>';
 
     var li = document.createElement("li");
