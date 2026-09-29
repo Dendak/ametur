@@ -289,9 +289,21 @@
   .impulse .wann { font-weight: 700; }
   .impulse .quelle { opacity: 0.7; }
   .impulse .text {
-    margin: 0.45rem 0 0.9rem 1.1rem;
-    font-size: 0.94rem;
-    line-height: 1.6;
+    position: relative;
+    margin: 0.5rem 0 1.1rem 1.1rem;
+    padding-left: 1.5rem;
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .impulse .text::before {
+    content: "„";
+    position: absolute;
+    left: 0;
+    top: -0.45rem;
+    font-size: 2.1rem;
+    line-height: 1;
+    opacity: 0.35;
   }
   .beschreibung p { margin: 0 0 0.6rem; }
   .beschreibung p:last-child { margin-bottom: 0; }
@@ -666,19 +678,19 @@
                 <details data-ab="2026-09-28T09:01" hidden>
                   <summary><span class="wann">9.00 Uhr</span> &middot; Das dankbare Herz
                     <span class="quelle">(nach Meister Eckhart)</span></summary>
-                  <p class="text">Ein dankbares Herz empfängt mehr, weil es offen ist.<br>
+                  <blockquote class="text">Ein dankbares Herz empfängt mehr, weil es offen ist.<br>
                     Wer alles für selbstverständlich nimmt, nimmt im Grunde nichts wahr.<br>
                     Dankbarkeit ist die Kunst, das Gewöhnliche als Geschenk zu sehen:<br>
                     das Licht am Morgen, den eigenen Atem, die Stimme eines vertrauten Menschen.<br>
-                    Lass uns heute für einen Augenblick das Herz offen werden lassen.</p>
+                    Lass uns heute für einen Augenblick das Herz offen werden lassen.</blockquote>
                 </details>
                 <details data-ab="2026-09-28T11:56" hidden>
                   <summary><span class="wann">11.55 Uhr</span> &middot; Was uns frei macht
                     <span class="quelle">(nach Epiktet)</span></summary>
-                  <p class="text">Manches liegt in unserer Macht, manches nicht.<br>
+                  <blockquote class="text">Manches liegt in unserer Macht, manches nicht.<br>
                     Ob das Leben leicht zu uns ist, können wir nicht immer wählen.<br>
                     Aber dankbar sein &ndash; das können wir.<br>
-                    Jeden Morgen neu.</p>
+                    Jeden Morgen neu.</blockquote>
                 </details>
               </div>
               <div class="tag-block" hidden>
@@ -686,19 +698,19 @@
                 <details data-ab="2026-09-29T09:01" hidden>
                   <summary><span class="wann">9.00 Uhr</span> &middot; Das Wesentliche
                     <span class="quelle">(nach Antoine de Saint-Exupéry)</span></summary>
-                  <p class="text">Man sieht nur mit dem Herzen gut.<br>
+                  <blockquote class="text">Man sieht nur mit dem Herzen gut.<br>
                     Das Wesentliche ist für die Augen unsichtbar.<br>
                     Bleibt das Wesentliche nicht verborgen, wenn wir zu schnell durch den Tag gehen?<br>
-                    Was ist heute das Wesentliche in deinem Leben?</p>
+                    Was ist heute das Wesentliche in deinem Leben?</blockquote>
                 </details>
                 <details data-ab="2026-09-29T11:56" hidden>
                   <summary><span class="wann">11.55 Uhr</span> &middot; Dass sie ist
                     <span class="quelle">(nach Ludwig Wittgenstein)</span></summary>
-                  <p class="text">Nicht wie die Welt ist, ist das Geheimnis &ndash;<br>
+                  <blockquote class="text">Nicht wie die Welt ist, ist das Geheimnis &ndash;<br>
                     sondern, dass sie überhaupt ist.<br>
                     Nicht die Frage, wie alles funktioniert, ist das Geheimnis,<br>
                     sondern die stille Verwunderung darüber, dass es etwas gibt und nicht nichts.<br>
-                    Dass wir hier sind. Dass dieser Augenblick ist, das ist das Geheimnis.</p>
+                    Dass wir hier sind. Dass dieser Augenblick ist, das ist das Geheimnis.</blockquote>
                 </details>
               </div>
               <div class="tag-block" hidden>
@@ -706,20 +718,20 @@
                 <details data-ab="2026-09-30T09:01" hidden>
                   <summary><span class="wann">9.00 Uhr</span> &middot; Das Kleine
                     <span class="quelle">(nach Dietrich Bonhoeffer)</span></summary>
-                  <p class="text">Wer nicht das Kleine sieht,<br>
+                  <blockquote class="text">Wer nicht das Kleine sieht,<br>
                     wird auch für das Große nicht dankbar sein.<br>
                     Ein Buch. Ein Sonnenstrahl. Ein gutes Wort.<br>
                     Vielleicht liegt das Glück nicht im Großen, das wir erwarten,<br>
-                    sondern im Kleinen, das längst da ist.</p>
+                    sondern im Kleinen, das längst da ist.</blockquote>
                 </details>
                 <details data-ab="2026-09-30T11:56" hidden>
                   <summary><span class="wann">11.55 Uhr</span> &middot; Das Geheimnisvolle
                     <span class="quelle">(nach Albert Einstein)</span></summary>
-                  <p class="text">Das Schöne, was wir erleben, ist das Geheimnisvolle.<br>
+                  <blockquote class="text">Das Schöne, was wir erleben, ist das Geheimnisvolle.<br>
                     Es steht am Ursprung aller Kunst und Wissenschaft.<br>
                     Wer nicht mehr staunen kann, dessen Augen sind geschlossen.<br>
                     Halten wir inne &ndash;<br>
-                    lasst uns staunen.</p>
+                    lasst uns staunen.</blockquote>
                 </details>
               </div>
               <div class="tag-block" hidden>
@@ -727,20 +739,20 @@
                 <details data-ab="2026-10-01T09:01" hidden>
                   <summary><span class="wann">9.00 Uhr</span> &middot; Erst wenn es fehlt
                     <span class="quelle">(eine alte Weisheit)</span></summary>
-                  <p class="text">Oft merken wir erst, was wir gehabt haben, wenn es nicht mehr da ist.<br>
+                  <blockquote class="text">Oft merken wir erst, was wir gehabt haben, wenn es nicht mehr da ist.<br>
                     Die Gesundheit, wenn wir krank werden.<br>
                     Einen Menschen, wenn er uns verlässt.<br>
                     Die Zeit, wenn sie vergangen ist.<br>
-                    Dankbar sein heißt: JETZT. In diesem Augenblick.</p>
+                    Dankbar sein heißt: JETZT. In diesem Augenblick.</blockquote>
                 </details>
                 <details data-ab="2026-10-01T11:56" hidden>
                   <summary><span class="wann">11.55 Uhr</span> &middot; Die Fragen lieb haben
                     <span class="quelle">(nach Rainer Maria Rilke)</span></summary>
-                  <p class="text">Hab Geduld mit allem Ungelösten in deinem Herzen.<br>
+                  <blockquote class="text">Hab Geduld mit allem Ungelösten in deinem Herzen.<br>
                     Versuche die Fragen selbst lieb zu haben.<br>
                     Staunen heißt nicht, eine Antwort zu haben.<br>
                     Staunen heißt, mit der Frage leben zu können.<br>
-                    Welche Frage trägst du in dir &ndash; ohne dass du sie heute lösen musst?</p>
+                    Welche Frage trägst du in dir &ndash; ohne dass du sie heute lösen musst?</blockquote>
                 </details>
               </div>
               <div class="tag-block" hidden>
@@ -748,19 +760,19 @@
                 <details data-ab="2026-10-02T09:01" hidden>
                   <summary><span class="wann">9.00 Uhr</span> &middot; Der Anfang
                     <span class="quelle">(nach Aristoteles)</span></summary>
-                  <p class="text">Durch das Staunen sind die Menschen zur Weisheit gekommen &ndash;<br>
+                  <blockquote class="text">Durch das Staunen sind die Menschen zur Weisheit gekommen &ndash;<br>
                     Staunen ist nicht Unwissen.<br>
                     Es ist der Augenblick, in dem etwas beginnt.<br>
-                    Lass uns die Welt sehen, als sähen wir sie zum ersten Mal.</p>
+                    Lass uns die Welt sehen, als sähen wir sie zum ersten Mal.</blockquote>
                 </details>
                 <details data-ab="2026-10-02T11:56" hidden>
                   <summary><span class="wann">11.55 Uhr</span> &middot; Zwischen zwei Unendlichkeiten
                     <span class="quelle">(nach Blaise Pascal)</span></summary>
-                  <p class="text">Der Mensch steht zwischen zwei Unendlichkeiten &ndash;<br>
+                  <blockquote class="text">Der Mensch steht zwischen zwei Unendlichkeiten &ndash;<br>
                     dem unendlich Großen des Weltalls<br>
                     und dem unendlich Kleinen, das in jedem Staubkorn wohnt.<br>
                     Beides übersteigt unser Begreifen. Und mitten darin: wir.<br>
-                    Klein und groß zugleich. Ein Wunder.</p>
+                    Klein und groß zugleich. Ein Wunder.</blockquote>
                 </details>
               </div>
             </div>
