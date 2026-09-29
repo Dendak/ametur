@@ -125,6 +125,19 @@
     letter-spacing: 0.03em;
   }
   .n-title { font-weight: 600; }
+  /* Spirituelle Impulse heben sich vom uebrigen Programm ab. */
+  ul.next li.is-impuls .n-title {
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  ul.next li.is-impuls .n-title::before {
+    content: "\273A\00a0";
+    font-style: normal;
+    font-size: 0.8em;
+    opacity: 0.5;
+  }
   .n-meta { font-size: 0.9rem; opacity: 0.72; }
   /* Findet heute statt: Zeile faerben und mit Badge kennzeichnen. */
   ul.next li.is-today {
@@ -337,7 +350,9 @@
     font-size: clamp(3.5rem, 15vw, 9rem);
     font-weight: 900;
     color: var(--paper);
-    letter-spacing: -0.01em;
+    /* Zusaetzliche Strichstaerke, damit der Schriftzug satt wirkt. */
+    -webkit-text-stroke: 0.05em var(--paper);
+    letter-spacing: 0.02em;
     line-height: 0.9;
     margin: 0 0 0.75rem;
   }
@@ -631,16 +646,16 @@
             <!-- Jeder Impuls ist ein eigener Termin in "Naechste Termine";
                  der Titel bleibt bis zum Abspielen verborgen. -->
             <div class="impuls-termine" hidden>
-              <span data-date="2026-09-28" data-at="09:00" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
-              <span data-date="2026-09-28" data-at="11:55" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
-              <span data-date="2026-09-29" data-at="09:00" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
-              <span data-date="2026-09-29" data-at="11:55" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
-              <span data-date="2026-09-30" data-at="09:00" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
-              <span data-date="2026-09-30" data-at="11:55" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
-              <span data-date="2026-10-01" data-at="09:00" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
-              <span data-date="2026-10-01" data-at="11:55" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
-              <span data-date="2026-10-02" data-at="09:00" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
-              <span data-date="2026-10-02" data-at="11:55" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-09-28" data-at="09:00" data-art="impuls" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-09-28" data-at="11:55" data-art="impuls" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-09-29" data-at="09:00" data-art="impuls" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-09-29" data-at="11:55" data-art="impuls" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-09-30" data-at="09:00" data-art="impuls" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-09-30" data-at="11:55" data-art="impuls" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-10-01" data-at="09:00" data-art="impuls" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-10-01" data-at="11:55" data-art="impuls" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-10-02" data-at="09:00" data-art="impuls" data-title="Spiritueller Impuls" data-time="9.00 Uhr" data-ziel="impulse-woche"></span>
+              <span data-date="2026-10-02" data-at="11:55" data-art="impuls" data-title="Spiritueller Impuls" data-time="11.55 Uhr" data-ziel="impulse-woche"></span>
             </div>
             <!-- Jeder Impuls wird erst eine Minute nach seiner Abspielzeit
                  sichtbar; siehe data-ab und das Skript am Seitenende. -->
@@ -921,6 +936,7 @@ function anmeldeButton(url, titel) {
       bereich: sektion ? sektion.querySelector("h2").textContent.trim() : "",
       zeit: el.getAttribute("data-time") || "",
       ziel: ziel,
+      art: el.getAttribute("data-art"),
       anmeldung: el.getAttribute("data-form")
     });
   }
@@ -949,7 +965,10 @@ function anmeldeButton(url, titel) {
     if (istHeute) datumText = '<span class="n-today">Heute</span>';
 
     var li = document.createElement("li");
-    if (istHeute) li.className = "is-today";
+    var klassen = [];
+    if (istHeute) klassen.push("is-today");
+    if (t.art) klassen.push("is-" + t.art);
+    li.className = klassen.join(" ");
     li.innerHTML =
       '<a class="n-link" href="#' + t.ziel + '">' +
         '<span class="n-date">' + datumText + "</span>" +
