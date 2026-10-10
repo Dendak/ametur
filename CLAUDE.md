@@ -13,7 +13,9 @@ keine Serverlogik. Gehostet über GitHub Pages.
 - `index.html` – gesamte Seite: CSS im `<style>`, Programm als HTML, Skript am Seitenende
   (baut „Nächste Termine" aus `data-date`/`data-end`/`data-at`/`data-title`/`data-time`,
   hängt Anmelde-Buttons aus `data-form` an, schaltet Impulstexte per `data-ab` zeitgesteuert frei).
-- `ametur-logo.png` (Logo/Favicon/og:image), `koernung.png` (Papier-Körnung als Hintergrundkachel).
+- `ametur-logo.png` (Original, og:image), `ametur-logo-web.png` (400 px, Logo im Kopf),
+  `favicon.png`, `apple-touch-icon.png` (aus dem Original verkleinert),
+  `koernung.png` (Papier-Körnung als Hintergrundkachel).
 - `CNAME` – Custom Domain. `.nojekyll` – Jekyll aus.
 - `README.md` – Doku zu Aufbau und Pflege (teilweise veraltet, siehe docs/POZNAMKY.md).
 
@@ -29,7 +31,8 @@ Kein GitHub-Actions-Workflow; andere Branches deployen nicht.
 ## Vorsicht
 - Push auf `main` = Live-Deployment für alle, die den Plakat-QR-Code scannen.
 - `CNAME` nicht löschen/ändern, sonst verliert Pages die Custom Domain.
-- Pfade relativ halten (kein führendes `/ametur/`). `.nojekyll` behalten.
+- Pfade relativ halten (kein führendes `/ametur/`). `.nojekyll` behalten. Ausnahme: `canonical`
+  und `og:*` im `<head>` brauchen absolute Adressen, sonst fehlt das Bild in Link-Vorschauen.
 - Repo muss öffentlich bleiben (Pages + Custom Domain im Gratis-Plan) – also nichts
   Vertrauliches committen, auch nicht auf Nebenbranches.
 - Personenbezogene Daten: Namen von Referent:innen und Lehrkräften (u. a. Herz-Jesu-Freitag)
