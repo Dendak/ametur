@@ -124,7 +124,6 @@
     border-radius: 0.5rem;
   }
   ul.next a.n-link:hover { background: rgba(62, 61, 73, 0.07); }
-  ul.next .btn-anmelden { margin: 0; flex: none; font-size: 0.72rem; padding: 0.12rem 0.75rem; }
   .n-date {
     flex: none;
     width: 6.5rem;
@@ -233,36 +232,93 @@
   .details + .details { margin-top: 0.2rem; }
   ul.plain { list-style: none; margin: 0.4rem 0 0; padding: 0; font-size: 0.97rem; }
   ul.plain li { margin-bottom: 0.15rem; }
-  .btn-anmelden {
-    display: inline-block;
+  /* Knoepfe je Termin: "Anmelden" und "Kalender" (setzt das Skript). */
+  .knoepfe {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin-top: 0.6rem;
+  }
+  .btn-anmelden,
+  .btn-kalender {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    font-family: inherit;
     font-size: 0.8rem;
     font-weight: 700;
+    line-height: 1.5;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     text-decoration: none;
     color: var(--ink);
+    background: none;
     border: 1.5px solid rgba(62, 61, 73, 0.4);
     border-radius: 999px;
     padding: 0.28rem 0.9rem;
     white-space: nowrap;
+    cursor: pointer;
   }
-  .btn-anmelden:hover {
+  .btn-anmelden:hover,
+  .btn-kalender:hover {
     background: rgba(62, 61, 73, 0.12);
     border-color: var(--ink);
   }
-  .card > ul.plain > li.mit-button {
+  .btn-kalender svg { width: 1.15em; height: 1.15em; flex: none; }
+  /* In Listen kompakt; in Programmzeilen den Kalender nur als Symbol. */
+  ul.plain .knoepfe,
+  ul.next .knoepfe { margin: 0; flex: none; flex-wrap: nowrap; gap: 0.4rem; }
+  ul.plain .knoepfe { margin-left: auto; }
+  ul.plain .knoepfe > *,
+  ul.next .knoepfe > * { font-size: 0.72rem; padding: 0.1rem 0.7rem; }
+  ul.plain .btn-kalender { padding: 0.1rem 0.5rem; }
+  ul.plain .btn-kalender .btn-text { display: none; }
+  /* Passt der Text nicht in eine Zeile, rutschen die Knoepfe darunter. */
+  .card ul.plain > li.mit-button {
     display: flex;
-    gap: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.75rem;
     align-items: baseline;
     justify-content: space-between;
     margin-bottom: 0.45rem;
   }
-  .card > ul.plain > li > .btn-anmelden {
-    margin: 0;
-    padding: 0.1rem 0.7rem;
+
+  /* ---------- Kalender-Auswahl ---------- */
+  .kalender-dialog {
+    width: min(26rem, calc(100% - 2rem));
+    border: 0;
+    border-radius: 2rem;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.25);
+  }
+  .kalender-dialog::backdrop { background: rgba(62, 61, 73, 0.55); }
+  /* Polster am Formular, damit ein Klick auf den Dialog selbst nur der Hintergrund ist. */
+  .kalender-dialog form { padding: 1.75rem 1.5rem 1rem; }
+  .kal-kicker {
     font-size: 0.72rem;
-    flex: none;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin: 0 0 0.5rem;
+  }
+  .kalender-dialog h2 { font-size: 1.25rem; line-height: 1.25; margin: 0 0 0.35rem; }
+  .kal-wann { margin: 0 0 1.25rem; font-size: 0.95rem; opacity: 0.8; }
+  .kal-wahl { display: grid; gap: 0.6rem; }
+  .kal-wahl .button { text-align: center; font-size: 1rem; padding: 0.8rem 1.2rem; }
+  .kal-hinweis { font-size: 0.85rem; opacity: 0.7; margin: 0.9rem 0 0; text-align: center; }
+  .kal-zu {
+    display: block;
+    margin: 0.5rem auto 0;
+    padding: 0.5rem 1rem;
+    font: inherit;
+    font-size: 0.95rem;
+    color: inherit;
+    background: none;
+    border: 0;
+    text-decoration: underline;
+    cursor: pointer;
   }
   /* ---------- Gespielte Impulse ---------- */
   .impulse {
@@ -439,10 +495,11 @@
   }
 
   @media (max-width: 40rem) {
-    ul.next li { align-items: flex-start; }
-    ul.next a.n-link { flex-direction: column; gap: 0.1rem; }
+    /* Knoepfe in eigener Zeile unter dem Text, damit der Titel Platz hat. */
+    ul.next li { align-items: flex-start; flex-wrap: wrap; }
+    ul.next a.n-link { flex: 1 1 100%; flex-direction: column; gap: 0.1rem; }
     .n-date { width: auto; }
-    ul.next .btn-anmelden { margin-top: 0.7rem; }
+    ul.next .knoepfe { margin: -0.3rem 0 0.75rem 0.25rem; }
   }
   @media (min-width: 60rem) {
     .cols { columns: 2; }
@@ -803,7 +860,7 @@
             <p class="details">07.30&ndash;07.45 Uhr</p>
             <p class="details">Oberstufe &middot; Josefskapelle</p>
           </li>
-          <li data-form="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=8aFl7rnUtEejaUJ8o_YRjt3y44fzZ1dJon8TFx2yHmVUNlJJT1Y3MzJWQVdLR0dMV0E2MFZWSTE4NS4u" data-date="2027-04-04" data-end="2027-04-11" data-time="7.00 &amp; 18.30 Uhr &middot; bis So., 11.4.27">
+          <li data-form="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=8aFl7rnUtEejaUJ8o_YRjt3y44fzZ1dJon8TFx2yHmVUNlJJT1Y3MzJWQVdLR0dMV0E2MFZWSTE4NS4u" data-date="2027-04-04" data-end="2027-04-11" data-time="7.00 &amp; 18.30 Uhr &middot; Klosterkirche &middot; bis So., 11.4.27">
             <p class="when">So., 4.4. &ndash; So., 11.4.27</p>
             <h3>M&ouml;glichkeit, das Stundengebet mit den Missionaren mitzubeten</h3>
             <p class="details">7.00 Uhr (So. 7.30 Uhr) &amp; 18.30 Uhr (So. 17.30 Uhr)</p>
@@ -882,11 +939,28 @@
   <p class="imprint">Privatgymnasium der Herz-Jesu-Missionare &middot; ametur.herzjesugym.at</p>
 </footer>
 
+<!-- Auswahl "In den Kalender". Titel, Zeit und Links setzt das Skript je Termin;
+     ohne JavaScript oder ohne <dialog>-Unterstuetzung bleibt sie verborgen. -->
+<dialog class="kalender-dialog" id="kalender" aria-labelledby="kal-titel" hidden>
+  <form method="dialog">
+    <p class="kal-kicker">In den Kalender eintragen</p>
+    <h2 id="kal-titel"></h2>
+    <p class="kal-wann" id="kal-wann"></p>
+    <div class="kal-wahl">
+      <a class="button" id="kal-ics" href="#">Apple-Kalender / Outlook</a>
+      <a class="button" id="kal-google" href="#" target="_blank" rel="noopener">Google Kalender</a>
+    </div>
+    <p class="kal-hinweis">Auf Android-Handys meist &bdquo;Google Kalender&ldquo; w&auml;hlen.</p>
+    <button class="kal-zu" value="zu">Schlie&szlig;en</button>
+  </form>
+</dialog>
+
 <script>
 // ---------------------------------------------------------------
 // Jede anmeldepflichtige Veranstaltung hat ihr eigenes Microsoft-
 // Forms-Formular. Seine Adresse steht am jeweiligen <li> im Attribut
 // data-form. Ohne dieses Attribut erscheint kein Anmelde-Button.
+// Den Kalender-Button bekommt jeder kommende Termin mit data-date.
 // ---------------------------------------------------------------
 
 // Baut einen Anmelde-Button.
@@ -919,6 +993,221 @@ function minutenAus(el) {
   var m = /(?:^|[^\d.])(\d{1,2})[.:](\d{2})(?![\d.])/.exec(text);
   return m ? +m[1] * 60 + +m[2] : -1;
 }
+
+// Titel eines Termins als reiner Text: data-title, sonst <h3>, sonst der Eintrag.
+function titelVon(el) {
+  var h3 = el.querySelector("h3");
+  return el.getAttribute("data-title") ||
+    (h3 ? h3.textContent : el.textContent).replace(/\s+/g, " ").trim();
+}
+
+// Text als Adressbaustein: "Taizégebet" -> "taizegebet".
+function kuerzel(text) {
+  return text.toLowerCase()
+    .replace(/\u00e4/g, "ae").replace(/\u00f6/g, "oe").replace(/\u00fc/g, "ue").replace(/\u00df/g, "ss")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+/, "").slice(0, 50).replace(/-+$/, "");
+}
+
+// Sprungziel eines Termins, stabil aus Datum und Titel, damit Links in
+// eingetragenen Kalendern auch dann noch passen, wenn Termine dazukommen.
+// data-ziel verweist auf einen anderen Eintrag (z. B. bei den Impulsen).
+function ankerVon(el) {
+  var ziel = el.getAttribute("data-ziel");
+  if (ziel) return ziel;
+  if (!el.id) {
+    var basis = "t-" + el.getAttribute("data-date") + "-" + kuerzel(titelVon(el));
+    var id = basis;
+    for (var n = 2; document.getElementById(id); n++) id = basis + "-" + n;
+    el.id = id;
+  }
+  return el.id;
+}
+
+// ---------------------------------------------------------------
+// Kalender: Jeder kommende Termin bekommt einen Kalender-Button.
+// Alles kommt aus data-date/data-end/data-time: erste Uhrzeit = Beginn,
+// "10.35–10.45" = Beginn und Ende, sonst 90 Minuten; Teile von data-time
+// ohne Ziffern = Ort. Mehrtaegiges (data-end) und Termine ohne Uhrzeit
+// werden ganztaegig eingetragen.
+// ---------------------------------------------------------------
+var KALENDER = window.HTMLDialogElement ? document.getElementById("kalender") : null;
+var SEITE = (document.querySelector('link[rel="canonical"]') || location).href.split("#")[0];
+var IST_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+var KALENDER_SYMBOL =
+  '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" ' +
+  'stroke="currentColor" stroke-width="2" stroke-linecap="round">' +
+  '<rect x="3" y="5" width="18" height="16" rx="2.5"/>' +
+  '<path d="M3 10h18M8 3v4M16 3v4M12 13.5v5M9.5 16h5"/></svg>';
+
+var FMT_LANG = null;
+try {
+  FMT_LANG = new Intl.DateTimeFormat("de-AT", { weekday: "short", day: "numeric", month: "long", year: "numeric" });
+} catch (e) {}
+
+function zweistellig(n) { return (n < 10 ? "0" : "") + n; }
+// 20261014
+function icsTag(d) { return d.getFullYear() + zweistellig(d.getMonth() + 1) + zweistellig(d.getDate()); }
+// 20261014T183000
+function icsZeit(d) { return icsTag(d) + "T" + zweistellig(d.getHours()) + zweistellig(d.getMinutes()) + "00"; }
+function tagDanach(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1); }
+function tagText(d) {
+  return FMT_LANG ? FMT_LANG.format(d) : d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear();
+}
+
+// Liest einen Termin aus seinem Eintrag.
+function terminVon(el) {
+  var datum = datumAus(el.getAttribute("data-date"));
+  var bis = datumAus(el.getAttribute("data-end"));
+  var zeit = el.getAttribute("data-time") || "";
+  var beginn = minutenAus(el);
+  var t = {
+    titel: titelVon(el),
+    datum: datum,
+    bis: bis,
+    zeit: zeit,
+    ort: zeit.split("\u00b7")
+      .map(function (s) { return s.trim(); })
+      .filter(function (s) { return s && !/\d/.test(s); })
+      .join(", "),
+    anmeldung: el.getAttribute("data-form"),
+    link: SEITE + "#" + ankerVon(el),
+    ganztags: !!bis || beginn < 0
+  };
+  if (!t.ganztags) {
+    var spanne = /(\d{1,2})[.:](\d{2})\s*[\u2013-]\s*(\d{1,2})[.:](\d{2})/.exec(zeit);
+    var ende = spanne ? +spanne[3] * 60 + +spanne[4] : beginn + 90;
+    if (ende <= beginn) ende = beginn + 90;
+    t.start = new Date(datum.getFullYear(), datum.getMonth(), datum.getDate(), 0, beginn);
+    t.ende = new Date(datum.getFullYear(), datum.getMonth(), datum.getDate(), 0, ende);
+  }
+  return t;
+}
+
+// "Mi., 14. Oktober 2026 · 18.30 Uhr · Theatersaal"
+function wannVon(t) {
+  var teile = [t.bis ? tagText(t.datum) + " \u2013 " + tagText(t.bis) : tagText(t.datum)];
+  t.zeit.split("\u00b7").forEach(function (s) {
+    s = s.trim();
+    if (s && !/^bis /.test(s)) teile.push(s);
+  });
+  return teile.join(" \u00b7 ");
+}
+
+function beschreibungVon(t) {
+  return [
+    t.zeit,
+    t.anmeldung ? "Anmeldung: " + t.anmeldung : "",
+    "AMETUR \u2013 Menschenbild und Spiritualit\u00e4t",
+    t.link
+  ].filter(Boolean).join("\n");
+}
+
+// Textwert nach RFC 5545 maskieren.
+function icsText(s) {
+  return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+}
+
+// Zeilen nach RFC 5545 spaetestens nach 75 Byte (UTF-8) umbrechen.
+function icsFalten(zeile) {
+  var aus = "", bytes = 0;
+  for (var i = 0; i < zeile.length; i++) {
+    var c = zeile.charCodeAt(i);
+    var b = c < 0x80 ? 1 : c < 0x800 ? 2 : (c >= 0xdc00 && c < 0xe000) ? 0 : (c >= 0xd800 && c < 0xdc00) ? 4 : 3;
+    if (bytes + b > 75) { aus += "\r\n "; bytes = 1; }
+    aus += zeile.charAt(i);
+    bytes += b;
+  }
+  return aus;
+}
+
+var ICS_ZEITZONE = [
+  "BEGIN:VTIMEZONE", "TZID:Europe/Vienna",
+  "BEGIN:DAYLIGHT", "TZOFFSETFROM:+0100", "TZOFFSETTO:+0200", "TZNAME:CEST",
+  "DTSTART:19700329T020000", "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU", "END:DAYLIGHT",
+  "BEGIN:STANDARD", "TZOFFSETFROM:+0200", "TZOFFSETTO:+0100", "TZNAME:CET",
+  "DTSTART:19701025T030000", "RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU", "END:STANDARD",
+  "END:VTIMEZONE"
+];
+
+// Inhalt der .ics-Datei (Apple-Kalender, Outlook und andere).
+function icsDatei(t) {
+  var z = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//AMETUR//Programm//DE", "CALSCALE:GREGORIAN", "METHOD:PUBLISH"];
+  if (!t.ganztags) z = z.concat(ICS_ZEITZONE);
+  z.push(
+    "BEGIN:VEVENT",
+    // Gleiche UID beim erneuten Eintragen: Kalender aktualisieren statt doppeln.
+    "UID:" + (t.ganztags ? icsTag(t.datum) : icsZeit(t.start)) + "-" + kuerzel(t.titel) + "@ametur.herzjesugym.at",
+    "DTSTAMP:" + new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, ""),
+    t.ganztags ? "DTSTART;VALUE=DATE:" + icsTag(t.datum) : "DTSTART;TZID=Europe/Vienna:" + icsZeit(t.start),
+    t.ganztags ? "DTEND;VALUE=DATE:" + icsTag(tagDanach(t.bis || t.datum)) : "DTEND;TZID=Europe/Vienna:" + icsZeit(t.ende),
+    "SUMMARY:" + icsText(t.titel)
+  );
+  if (t.ort) z.push("LOCATION:" + icsText(t.ort));
+  z.push("DESCRIPTION:" + icsText(beschreibungVon(t)), "URL:" + t.link, "END:VEVENT", "END:VCALENDAR");
+  return z.map(icsFalten).join("\r\n") + "\r\n";
+}
+
+function googleLink(t) {
+  var zeitraum = t.ganztags
+    ? icsTag(t.datum) + "/" + icsTag(tagDanach(t.bis || t.datum))
+    : icsZeit(t.start) + "/" + icsZeit(t.ende);
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+    "&text=" + encodeURIComponent(t.titel) +
+    "&dates=" + zeitraum +
+    "&ctz=Europe/Vienna" +
+    "&details=" + encodeURIComponent(beschreibungVon(t)) +
+    (t.ort ? "&location=" + encodeURIComponent(t.ort) : "");
+}
+
+// Fuellt die Kalender-Auswahl mit einem Termin und oeffnet sie.
+function kalenderZeigen(t) {
+  document.getElementById("kal-titel").textContent = t.titel;
+  document.getElementById("kal-wann").textContent = wannVon(t);
+  var ics = document.getElementById("kal-ics");
+  ics.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(icsDatei(t));
+  // iPhone/iPad zeigen die Datei direkt zum Eintragen an; als Download
+  // landete sie dort nur in "Dateien".
+  if (IST_IOS) ics.removeAttribute("download");
+  else ics.setAttribute("download", "ametur-" + kuerzel(t.titel) + ".ics");
+  document.getElementById("kal-google").href = googleLink(t);
+  KALENDER.showModal();
+}
+
+function kalenderButton(el) {
+  var t = terminVon(el);
+  var b = document.createElement("button");
+  b.type = "button";
+  b.className = "btn-kalender";
+  b.title = "In den Kalender eintragen";
+  b.setAttribute("aria-label", "In den Kalender: " + t.titel);
+  b.setAttribute("aria-haspopup", "dialog");
+  b.innerHTML = KALENDER_SYMBOL + '<span class="btn-text">Kalender</span>';
+  b.addEventListener("click", function () { kalenderZeigen(t); });
+  return b;
+}
+
+// Knoepfe eines Termins: "Anmelden" (mit Formular) und "Kalender"; null, wenn keiner.
+function knoepfeFuer(el, formular) {
+  if (!formular && !KALENDER) return null;
+  var box = document.createElement("span");
+  box.className = "knoepfe";
+  if (formular) box.appendChild(anmeldeButton(formular, titelVon(el)));
+  if (KALENDER) box.appendChild(kalenderButton(el));
+  return box;
+}
+
+// Kalender-Auswahl einsatzbereit machen; nach der Wahl und beim Klick
+// auf den abgedunkelten Hintergrund schliessen.
+(function () {
+  if (!KALENDER) return;
+  KALENDER.hidden = false;
+  KALENDER.addEventListener("click", function (ev) {
+    if (ev.target === KALENDER) KALENDER.close();
+    else if (ev.target.closest(".kal-wahl a")) setTimeout(function () { KALENDER.close(); }, 0);
+  });
+})();
 
 // Baut die Liste "Naechste Termine" aus allen Eintraegen mit data-date.
 (function () {
@@ -956,15 +1245,9 @@ function minutenAus(el) {
       titel = h3 ? h3.innerHTML : el.innerHTML;
     }
     var sektion = el.closest("section.block");
-    // data-ziel verlinkt auf einen anderen Eintrag, z. B. wenn der Termin
-    // selbst nur unsichtbare Zusatzinfo im Kalender ist.
-    var ziel = el.getAttribute("data-ziel");
-    if (!ziel) {
-      if (!el.id) el.id = "t" + i;
-      ziel = el.id;
-    }
 
     termine.push({
+      el: el,
       datum: datum,
       ende: ende,
       sortierDatum: sortierDatum,
@@ -972,7 +1255,7 @@ function minutenAus(el) {
       titel: titel,
       bereich: sektion ? sektion.querySelector("h2").textContent.trim() : "",
       zeit: el.getAttribute("data-time") || "",
-      ziel: ziel,
+      ziel: ankerVon(el),
       art: el.getAttribute("data-art"),
       anmeldung: el.getAttribute("data-form")
     });
@@ -1015,7 +1298,8 @@ function minutenAus(el) {
         '<span class="n-title">' + t.titel + "</span>" +
         '<span class="n-meta">' + meta + "</span>" +
       "</a>";
-    if (t.anmeldung) li.appendChild(anmeldeButton(t.anmeldung, t.titel));
+    var knoepfe = knoepfeFuer(t.el, t.anmeldung);
+    if (knoepfe) li.appendChild(knoepfe);
     list.appendChild(li);
   }
 
@@ -1043,30 +1327,25 @@ function minutenAus(el) {
   }
 })();
 
-// Haengt an jede kommende Veranstaltung in den markierten Bereichen einen Anmelde-Button.
+// Haengt an jede kommende Veranstaltung im Programm ihre Knoepfe:
+// "Anmelden" nur mit data-form in Bereichen mit data-anmeldung, "Kalender" immer.
 (function () {
-  var bereiche = document.querySelectorAll("section.block[data-anmeldung]");
-  for (var i = 0; i < bereiche.length; i++) {
-    var eintraege = bereiche[i].querySelectorAll(".card > ul > li");
-    for (var j = 0; j < eintraege.length; j++) {
-      var li = eintraege[j];
-      var formular = li.getAttribute("data-form");
-      if (!formular || li.classList.contains("vorbei")) continue;
+  var eintraege = document.querySelectorAll(".card li[data-date]");
+  for (var i = 0; i < eintraege.length; i++) {
+    var li = eintraege[i];
+    if (li.classList.contains("vorbei")) continue;
+    var formular = li.closest("section.block[data-anmeldung]") ? li.getAttribute("data-form") : null;
+    var knoepfe = knoepfeFuer(li, formular);
+    if (!knoepfe) continue;
 
-      var h3 = li.querySelector("h3");
-      var titel = li.getAttribute("data-title") || (h3 ? h3.textContent.trim() : "");
-
-      // Einzeiler (Filme): Text buendeln, damit der Button rechts steht.
-      if (li.parentNode.className.indexOf("plain") > -1) {
-        var text = document.createElement("span");
-        text.innerHTML = li.innerHTML;
-        li.innerHTML = "";
-        li.appendChild(text);
-        li.className += " mit-button";
-      }
-
-      li.appendChild(anmeldeButton(formular, titel));
+    // Einzeiler (Filme, Rorate ...): Text buendeln, damit die Knoepfe rechts stehen.
+    if (li.parentNode.classList.contains("plain")) {
+      var text = document.createElement("span");
+      while (li.firstChild) text.appendChild(li.firstChild);
+      li.appendChild(text);
+      li.classList.add("mit-button");
     }
+    li.appendChild(knoepfe);
   }
 })();
 

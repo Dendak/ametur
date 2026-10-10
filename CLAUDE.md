@@ -12,7 +12,11 @@ keine Serverlogik. Gehostet über GitHub Pages.
 ## Struktur
 - `index.html` – gesamte Seite: CSS im `<style>`, Programm als HTML, Skript am Seitenende
   (baut „Nächste Termine" aus `data-date`/`data-end`/`data-at`/`data-title`/`data-time`,
-  hängt Anmelde-Buttons aus `data-form` an, schaltet Impulstexte per `data-ab` zeitgesteuert frei).
+  hängt Anmelde-Buttons aus `data-form` und Kalender-Buttons (.ics/Google, Auswahl im `<dialog id="kalender">`)
+  an jeden kommenden Termin, schaltet Impulstexte per `data-ab` zeitgesteuert frei).
+  Kalender-Regeln: erste Uhrzeit in `data-time` = Beginn, „10.35–10.45" = Beginn/Ende, sonst 90 Min.;
+  Teile von `data-time` ohne Ziffern = Ort; mit `data-end` oder ohne Uhrzeit ganztägig.
+  Sprunganker sind stabil aus Datum + Titel (`#t-2026-10-14-zukunft-der-religionen`).
 - `ametur-logo.png` (Original, og:image), `ametur-logo-web.png` (400 px, Logo im Kopf),
   `favicon.png`, `apple-touch-icon.png` (aus dem Original verkleinert),
   `koernung.png` (Papier-Körnung als Hintergrundkachel).
