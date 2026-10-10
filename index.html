@@ -7,10 +7,19 @@
 <meta name="description" content="AMETUR – Menschenbild und Spiritualität. Programm im Schuljahr 2026/27 am Privatgymnasium der Herz-Jesu-Missionare: Vorträge, Gottesdienste, Film, Musik, Gebet und Gemeinschaft.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#e78439">
+<link rel="canonical" href="https://ametur.herzjesugym.at/">
+<!-- Link-Vorschau (WhatsApp, Teams, Facebook): Adressen muessen absolut sein. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ametur.herzjesugym.at/">
+<meta property="og:locale" content="de_AT">
 <meta property="og:title" content="AMETUR – Menschenbild und Spiritualität">
 <meta property="og:description" content="Programm im Schuljahr 2026/27 am Privatgymnasium der Herz-Jesu-Missionare.">
-<meta property="og:image" content="ametur-logo.png">
-<link rel="icon" href="ametur-logo.png">
+<meta property="og:image" content="https://ametur.herzjesugym.at/ametur-logo.png">
+<meta property="og:image:width" content="671">
+<meta property="og:image:height" content="439">
+<meta property="og:image:alt" content="Ametur – Globus mit Schriftband">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
   :root {
     --orange: #e78439;
@@ -58,8 +67,8 @@
   .kicker {
     font-size: 0.78rem;
     letter-spacing: 0.16em;
+    font-weight: 600;
     text-transform: uppercase;
-    color: var(--paper);
     margin: 0 0 0.6rem;
   }
   .tagline {
@@ -315,6 +324,10 @@
     line-height: 1.6;
     opacity: 0.85;
   }
+  /* Vergangene Termine treten zurueck (Klasse setzt das Skript). */
+  .card li.vorbei { opacity: 0.5; }
+  .card li.vorbei > .when::after,
+  .card ul.plain > li.vorbei::after { content: " \00b7  vorbei"; }
   .note {
     margin: 0.9rem 0 0;
     font-size: 0.92rem;
@@ -422,9 +435,7 @@
 
   .imprint {
     font-size: 0.9rem;
-    color: var(--paper);
     margin: 0;
-    opacity: 0.9;
   }
 
   @media (max-width: 40rem) {
@@ -451,7 +462,7 @@
       <p class="tagline">Menschenbild <strong>und Spiritualit&auml;t</strong></p>
       <h1>PROGRAMM</h1>
     </div>
-    <img class="logo" src="ametur-logo.png" alt="Ametur &ndash; Globus mit Schriftband">
+    <img class="logo" src="ametur-logo-web.png" width="400" height="262" alt="Ametur &ndash; Globus mit Schriftband">
   </div>
 </header>
 
@@ -565,7 +576,7 @@
             </ul>
             <p class="details" style="margin-top:0.4rem">6.20 Uhr &middot; Klosterkirche</p>
           </li>
-          <li data-date="2027-05-21" data-time="Gottesdienst 9.00 Uhr &middot; Maria Kirchental">
+          <li data-date="2027-05-21" data-end="2027-05-22" data-time="Gottesdienst Sa., 9.00 Uhr &middot; Maria Kirchental">
             <p class="when">Fr., 21.5. &ndash; Sa., 22.5.27</p>
             <h3>Nachtwallfahrt</h3>
             <p class="details">Gottesdienst 9.00 Uhr &middot; Maria Kirchental</p>
@@ -611,7 +622,7 @@
             <h3>Kartage bewusst erleben und Liturgie mitgestalten</h3>
             <p class="details">f&uuml;r unsere Ministrantengruppe</p>
           </li>
-          <li data-date="2027-04-14" data-time="8.00 &amp; 10.00 Uhr &middot; f&uuml;r Klassen">
+          <li data-date="2027-04-14" data-title="Widerstand aus Berufung (f&uuml;r Klassen)" data-time="8.00 &amp; 10.00 Uhr &middot; 5.&ndash;8. Klassen">
             <p class="when">Mi., 14.4.27</p>
             <h3>Widerstand aus Berufung</h3>
             <p class="details">Franz und Franziska J&auml;gerst&auml;tter &middot; Dr. Erna Putz</p>
@@ -839,7 +850,8 @@
     <h2>Anmeldung erw&uuml;nscht</h2>
     <p>Um Anmeldung bitten wir bei den <strong>Vortr&auml;gen &amp; Gespr&auml;chen</strong>,
       den <strong>Filmen</strong> sowie bei <strong>Gebet &amp; Spiritualit&auml;t</strong>.
-      Jede dieser Veranstaltungen hat oben ihren eigenen Anmelde-Button.</p>
+      Wo die Anmeldung bereits m&ouml;glich ist, steht beim Termin ein
+      &bdquo;Anmelden&ldquo;-Button.</p>
     <p class="hint">Im Formular gen&uuml;gen Name und die Anzahl der Personen
       &ndash; bis zu zehn mit einem Klick.</p>
   </section>
@@ -889,6 +901,25 @@ function anmeldeButton(url, titel) {
   return a;
 }
 
+// Heute, 0.00 Uhr.
+var HEUTE = new Date();
+HEUTE.setHours(0, 0, 0, 0);
+
+// "JJJJ-MM-TT" als Datum in Ortszeit.
+function datumAus(wert) {
+  if (!wert) return null;
+  var teile = wert.split("-");
+  return new Date(+teile[0], +teile[1] - 1, +teile[2]);
+}
+
+// Erste Uhrzeit aus data-at ("09:00") oder data-time ("18.30 Uhr") in
+// Minuten, -1 ohne Uhrzeit. Datumsangaben wie "22.1.27" zaehlen nicht.
+function minutenAus(el) {
+  var text = el.getAttribute("data-at") || el.getAttribute("data-time") || "";
+  var m = /(?:^|[^\d.])(\d{1,2})[.:](\d{2})(?![\d.])/.exec(text);
+  return m ? +m[1] * 60 + +m[2] : -1;
+}
+
 // Baut die Liste "Naechste Termine" aus allen Eintraegen mit data-date.
 (function () {
   var MAX = 6;
@@ -897,14 +928,7 @@ function anmeldeButton(url, titel) {
   if (!box || !list) return;
 
   var jetzt = new Date();
-  var heute = new Date();
-  heute.setHours(0, 0, 0, 0);
-
-  function datumAus(wert) {
-    if (!wert) return null;
-    var teile = wert.split("-");
-    return new Date(+teile[0], +teile[1] - 1, +teile[2]);
-  }
+  var heute = HEUTE;
 
   var termine = [];
   var eintraege = document.querySelectorAll("[data-date]");
@@ -944,6 +968,7 @@ function anmeldeButton(url, titel) {
       datum: datum,
       ende: ende,
       sortierDatum: sortierDatum,
+      minuten: minutenAus(el),
       titel: titel,
       bereich: sektion ? sektion.querySelector("h2").textContent.trim() : "",
       zeit: el.getAttribute("data-time") || "",
@@ -955,7 +980,10 @@ function anmeldeButton(url, titel) {
 
   if (!termine.length) return;
 
-  termine.sort(function (a, b) { return a.sortierDatum - b.sortierDatum || a.datum - b.datum; });
+  // Am selben Tag nach Uhrzeit, sonst stuende 18.30 Uhr vor 10.35 Uhr.
+  termine.sort(function (a, b) {
+    return a.sortierDatum - b.sortierDatum || a.minuten - b.minuten || a.datum - b.datum;
+  });
   termine = termine.slice(0, MAX);
 
   var fmt;
@@ -1005,7 +1033,17 @@ function anmeldeButton(url, titel) {
   });
 })();
 
-// Haengt an jede Veranstaltung in den markierten Bereichen einen Anmelde-Button.
+// Graut vergangene Termine im Programm aus (bei mehrtaegigen zaehlt data-end).
+(function () {
+  var eintraege = document.querySelectorAll(".card li[data-date]");
+  for (var i = 0; i < eintraege.length; i++) {
+    var el = eintraege[i];
+    var ende = datumAus(el.getAttribute("data-end") || el.getAttribute("data-date"));
+    if (ende < HEUTE) el.classList.add("vorbei");
+  }
+})();
+
+// Haengt an jede kommende Veranstaltung in den markierten Bereichen einen Anmelde-Button.
 (function () {
   var bereiche = document.querySelectorAll("section.block[data-anmeldung]");
   for (var i = 0; i < bereiche.length; i++) {
@@ -1013,7 +1051,7 @@ function anmeldeButton(url, titel) {
     for (var j = 0; j < eintraege.length; j++) {
       var li = eintraege[j];
       var formular = li.getAttribute("data-form");
-      if (!formular) continue;
+      if (!formular || li.classList.contains("vorbei")) continue;
 
       var h3 = li.querySelector("h3");
       var titel = li.getAttribute("data-title") || (h3 ? h3.textContent.trim() : "");
