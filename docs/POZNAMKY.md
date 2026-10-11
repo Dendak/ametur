@@ -14,8 +14,9 @@ Laufende Arbeitsnotizen zum Repo: offene Punkte und Verlauf der Sessions, damit 
     `data-art`, `data-ab` dokumentieren.
 - Fehlt noch (braucht Angaben/Entscheidung): Impressum/Offenlegung + Datenschutzhinweis (z. B. Link
   auf die Seiten der Schulwebsite), Schuladresse mit Kartenlink für Externe, kurzer Einleitungstext
-  (was ist AMETUR, für wen, Eintritt frei?), Kontakt + Link zur Schulhomepage,
-  „In den Kalender"-Button (Google + .ics, auf iPhone und Android testen).
+  (was ist AMETUR, für wen, Eintritt frei?), Kontakt + Link zur Schulhomepage.
+- Kalender-Buttons auf echten Handys testen (iPhone/Safari: „Apple-Kalender / Outlook" soll direkt
+  den Eintragen-Dialog zeigen; Android: „Google Kalender"). Nur am PC-Browser (Chromium) getestet.
 - Optional Kontrast: Bereichsüberschriften (hell auf Orange, ca. 2,5:1) – bewusst im Plakat-Look belassen.
 - In anmeldepflichtigen Bereichen ohne `data-form` (kein Anmelde-Button): Vortrag „Widerstand aus
   Berufung" (14.4.27), „Den Schatz der Eucharistie (neu) entdecken" (25.4.27), Filme „Die Hütte"
@@ -27,6 +28,12 @@ Laufende Arbeitsnotizen zum Repo: offene Punkte und Verlauf der Sessions, damit 
   Interview-Transkripten, im öffentlichen Repo sichtbar) – entscheiden: behalten, auslagern oder löschen.
 
 ## Verlauf
+
+### 2026-10-10 (2)
+Kalender-Buttons (Branch `kalender-buttons`, PR): jeder kommende Termin im Programm und in
+„Nächste Termine" hat einen Kalender-Button; Auswahl „Apple-Kalender / Outlook" (.ics, auf iOS
+direkt geöffnet) oder „Google Kalender". Stabile Sprunganker aus Datum + Titel. Stundengebet:
+Ort Klosterkirche in `data-time` ergänzt. Buttons in Listen brechen auf dem Handy sauber um.
 
 ### 2026-10-10
 Neues Gerät eingerichtet (keine lokalen/ignorierten Dateien nötig). Branch `verbesserungen-seite` mit PR:
