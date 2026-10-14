@@ -51,4 +51,5 @@ Kein GitHub-Actions-Workflow; andere Branches deployen nicht.
 - GitHub ist die Quelle der Wahrheit. Repo lokal unter `C:\Users\holub\code\ametur`, nie in OneDrive.
 - Session-Start: `git pull`, dann diese Datei und [docs/POZNAMKY.md](docs/POZNAMKY.md) lesen.
 - Session-Ende: `docs/POZNAMKY.md` aktualisieren (Offen + Verlauf), committen, pushen.
-- Größere oder riskante Änderungen über Branch + Pull Request, weil `main` live deployt.
+- Jede abgeschlossene Änderung sofort auf `main` pushen – damit ist sie live (kein Branch/PR nötig).
+  Vorher `git pull --rebase`; nur bei Kollision (Konflikt, abgelehnter Push, Force-Push) fragen.
