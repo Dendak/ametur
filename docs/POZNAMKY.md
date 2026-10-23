@@ -44,10 +44,12 @@ Offen – braucht Angaben/Entscheidung des Nutzers:
   - „Offene Schritte" (DNS, Custom Domain, HTTPS, Forms-URL in `cta`) wirken erledigt – prüfen und
     streichen; „Pages-URL (vorläufig)" ggf. anpassen. Optional: `data-end`, `data-at`, `data-ziel`,
     `data-art`, `data-ab`, Kalender-Regeln und „vorbei"-Logik dokumentieren (Kurzfassung steht in CLAUDE.md).
-- In anmeldepflichtigen Bereichen ohne `data-form` (kein Anmelde-Button): Vortrag „Widerstand aus
-  Berufung" (14.4.27), „Den Schatz der Eucharistie (neu) entdecken" (25.4.27), Filme „Die Hütte"
+- In anmeldepflichtigen Bereichen ohne `data-form` (kein Anmelde-Button): Filme „Die Hütte"
   (10.5.27) und „Soul" (24.6.27), Taizégebet, Exerzitien im Alltag, Marien-/Maiandachten – klären,
-  ob Formulare folgen.
+  ob Formulare folgen. Rorate bewusst ohne Anmeldung.
+- Neue Formulare entstehen als Kopie eines bestehenden AMETUR-Formulars (Forms-Konto Denis Holub),
+  Titel „AMETUR · T.M.JJ · Titel", Mitbearbeiter: Roman Neumayer und Edith Aigner
+  (Bestimmte Personen der Schule). Ältere Formulare sind (noch) nicht mit ihnen geteilt.
 - Termine ohne Datum: Exerzitien im Alltag („Fastenzeit"), Leitsprüche – `data-date` ergänzen, sobald fix.
 - Remote-Branches: `claude/new-repo-ukt-fevt1o` (Wartungsprotokoll-App, auf main revertiert) und
   `claude/windows-boot-secure-boot-jkg2eu` (Pater-Chatbot-Prototyp mit eigener CLAUDE.md und
@@ -62,6 +64,12 @@ Offen – braucht Angaben/Entscheidung des Nutzers:
   (`document.write` des per `fetch` geladenen HTML mit vorangestelltem Skript).
 
 ## Verlauf
+
+### 2026-10-23
+Anmeldung auch für alle Vorträge und Gottesdienste (außer Rorate): 4 neue Forms-Formulare
+(Widerstand aus Berufung 14.4.27, Schatz der Eucharistie 25.4.27, Nachtwallfahrt 21.5.27,
+Dankgottesdienst 9.7.27), mit Roman Neumayer und Edith Aigner geteilt; `data-form` eingetragen,
+Gottesdienste-Bereich mit `data-anmeldung`, Anmelde-Hinweis ergänzt. Direkt auf `main`, live.
 
 ### 2026-10-13
 Schluss auf diesem Gerät (Wechsel auf anderen PC). Notizen vervollständigt: Verbesserungsliste mit
