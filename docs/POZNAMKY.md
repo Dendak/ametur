@@ -49,7 +49,8 @@ Offen – braucht Angaben/Entscheidung des Nutzers:
   ob Formulare folgen. Rorate bewusst ohne Anmeldung.
 - Neue Formulare entstehen als Kopie eines bestehenden AMETUR-Formulars (Forms-Konto Denis Holub),
   Titel „AMETUR · T.M.JJ · Titel", Mitbearbeiter: Roman Neumayer und Edith Aigner
-  (Bestimmte Personen der Schule). Ältere Formulare sind (noch) nicht mit ihnen geteilt.
+  (Bestimmte Personen der Schule). Stand 2026-10-23: alle 24 AMETUR-Formulare mit beiden geteilt.
+  Beim Kopieren werden Mitbearbeiter nicht übernommen – nach jeder Kopie neu teilen.
 - Termine ohne Datum: Exerzitien im Alltag („Fastenzeit"), Leitsprüche – `data-date` ergänzen, sobald fix.
 - Remote-Branches: `claude/new-repo-ukt-fevt1o` (Wartungsprotokoll-App, auf main revertiert) und
   `claude/windows-boot-secure-boot-jkg2eu` (Pater-Chatbot-Prototyp mit eigener CLAUDE.md und
@@ -64,6 +65,12 @@ Offen – braucht Angaben/Entscheidung des Nutzers:
   (`document.write` des per `fetch` geladenen HTML mit vorangestelltem Skript).
 
 ## Verlauf
+
+### 2026-10-23 (2)
+Herz-Jesu-Freitag mit Anmeldung: 5 Formulare (6.11.26, 8.1.27, 5.2.27, 5.3.27, 2.4.27), Bereich
+„Gemeinschaft & Austausch" mit `data-anmeldung`, Hinweistext ergänzt. Alle älteren AMETUR-Formulare
+(inkl. „Spirituelle Impulse", nicht auf der Seite verlinkt) zusätzlich mit Roman Neumayer geteilt;
+Edith Aigner war dort schon Mitbearbeiterin. Juno-Formular hat einen alten „Als Vorlage teilen"-Link.
 
 ### 2026-10-23
 Anmeldung auch für alle Vorträge und Gottesdienste (außer Rorate): 4 neue Forms-Formulare
